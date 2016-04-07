@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+
+
+        <TextView
+            android:id="@+id/dtextView"
+            android:layout_width="95dp"
+            android:layout_height="25dp"
+            android:textColor="#FFFF"
+            android:textSize="17sp"
+            android:layout_marginLeft="17dp"
+            android:text="Date"
+            android:layout_gravity="left"
+            android:gravity="center"
+          />
+
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:textColor="#FFFF"
+            android:text="billno"
+            android:textSize="17sp"
+            android:layout_marginLeft="7dp"
+            android:layout_gravity="left"
+            android:gravity="center"
+
+      />
+
+
+<TextView
+            android:id="@+id/textView4"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:text="customer name"
+            android:textColor="#FFFF"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginLeft="9dp"
+            android:layout_gravity="left"
+            />
+
+
+
+
+        <TextView
+            android:id="@+id/table"
+            android:layout_width="150dp"
+            android:layout_height="25dp"
+            android:text="table"
+            android:textColor="#FFFF"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginLeft="9dp"
+            android:layout_gravity="left"
+            />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:text="grand tot"
+            android:textColor="#FFFF"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginLeft="9dp"
+            android:layout_gravity="left"
+            />
+
+
+        <Button
+                android:id="@+id/view_icon"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+            android:layout_marginBottom="5dp"
+                android:layout_gravity="left"
+                android:background="@mipmap/view_icon"
+          />
+
+    </LinearLayout>
+</LinearLayout>

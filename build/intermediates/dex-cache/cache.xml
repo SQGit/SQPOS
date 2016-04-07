@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\exploded-aar\com.github.rey5137\material\1.2.2\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="dde1ea8573633db3da4e8c42d541bfa7d03d6720">
+        <dex dex="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\pre-dexed\debug\classes-c01863c331d527312acbaaf9ee0b160a25e473d3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
+        <dex dex="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\pre-dexed\debug\classes-9347d117782c64f58de81a9eb9215090c96e0857.jar" />
+    </item>
+    <item
+        jar="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\pre-dexed\debug\classes-4a57577fa19c9d86bfdf2b9210f62268b0ab5a12.jar" />
+    </item>
+
+</items>

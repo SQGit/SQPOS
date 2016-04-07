@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">HABITAT</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="text_bluetooth_off">Bluetooth is Off</string>
+    <string name="text_bluetooth_on">Bluetooth is On</string>
+
+    <string name="text_connect">Connect</string>
+    <string name="text_disconnect">Diconnect</string>
+
+    <string name="text_enable_bluetooth">Enable Bluetooth</string>
+    <string name="text_disable_bluetooth">Disable Bluetooth</string>
+
+    <string name="text_scan_devices">Scan Devices</string>
+    <string name="text_stop_scan">Scan Devices</string>
+
+    <string name="text_list_paired_devices">Paired Devices</string>
+    <string name="text_list_devices">List of Devices</string>
+
+    <string name="text_pair">Pair</string>
+
+    <string name="text_print_demo">Print Demo</string>
+    <string name="text_print_barcode">Print Barcode</string>
+    <string name="text_print_image">Print Image</string>
+    <string name="text_print_receipt">Print Receipt</string>
+    <string name="text_print_text">Print Text</string>
+
+
+    <string name="set_logo">Set logo</string>
+    <string name="action_clear_device">Clear device</string>
+    <string name="action_connect_device">Connect Device</string>
+    <string name="action_unpair_device">Unpair Device</string>
+    <string name="choose_a_picture">Choose a picture to set as logo</string>
+    <string name="choose_gallery">Choose pic from Gallery</string>
+    <string name="choose_camera">Capture pic from Camera</string>
+    <string name="as_is_preview">Photo Preview</string>
+    <string name="printer_preview">Print Preview</string>
+    <string name="adjust_contrast">Adjust Contrast</string>
+    <string name="empty"></string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="logo_size">Logo size: </string>
+    <string name="maintain_aspect_ratio">Maintain Aspect Ratio</string>
+    <string name="invert_bitmap">Invert Image</string>
+    <string name="contrast_threshold">Contrast Threshold</string>
+    <string name="img_capture_cancelled">Image capture cancelled.</string>
+    <string name="img_capture_failed">Image capture failed</string>
+    <string name="img_too_small">Image too small, please choose a bigger one.</string>
+    <string name="val">ADD &amp; SEARCH ITEM</string>
+    <string name="val1">ADD ITEM</string>
+    <string name="val3">DASHBOARD</string>
+    <string name="val5">ADD  ITEM</string>
+    <string name="val7">BILLING HISTORY</string>
+    <string name="val_add">Add</string>
+    <string name="btn_close">close</string>
+    <string name="val6">Billing</string>
+    <string name="aaa">BILLING...</string>
+
+
+
+
+
+    <string name="country_prompt">Choose a country</string>
+
+    <string-array name="country_arrays">
+        <item>Table1</item>
+        <item>Table2</item>
+        <item>Table3</item>
+        <item>Table4</item>
+        <item>Table5</item>
+        <item>Table6</item>
+        <item>Table6</item>
+        <item>Table7</item>
+        <item>Table8</item>
+        <item>Table9</item>
+        <item>Table10</item>
+
+    </string-array>
+
+</resources>
