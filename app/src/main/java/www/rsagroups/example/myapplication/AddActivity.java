@@ -1,48 +1,34 @@
 package www.rsagroups.example.myapplication;
 
-import android.app.AlertDialog;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+	import android.content.ContentValues;
+	import android.content.Intent;
+	import android.database.sqlite.SQLiteDatabase;
+	import android.graphics.Typeface;
+	import android.os.Bundle;
+	import android.support.v7.app.AppCompatActivity;
+	import android.view.View;
+	import android.view.View.OnClickListener;
+	import android.widget.Button;
+	import android.widget.EditText;
+	import android.widget.TextView;
+	import android.widget.Toast;
 
-/**
- * activity to get input from user and insert into SQLite database
- * @author ketan(Visit my <a
- *         href="http://androidsolution4u.blogspot.in/">blog</a>)
- */
+
 		public class AddActivity extends AppCompatActivity implements OnClickListener {
 
 		private Button btn_save,cancel,back;
-			TextView head,bottom;
+	    TextView head,bottom;
 		private EditText edit_first,edit_last;
 		private DbHelper mHelper;
 		private SQLiteDatabase dataBase;
 		private String id,fname,lname;
 		private boolean isUpdate;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-		/*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
-        setContentView(R.layout.add_activity);
+				@Override
+				public void onCreate(Bundle savedInstanceState) {
+				super.onCreate(savedInstanceState);
+				setContentView(R.layout.add_activity);
 
-		/*getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setTitle(Html.fromHtml("<font color='#ffffff'><big><b>HABITAT</b></big> </font>"));
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);*/
 
         btn_save=(Button)findViewById(R.id.btn1);
 		cancel=(Button)findViewById(R.id.btn2);
@@ -62,14 +48,14 @@ import android.widget.Toast;
 		bottom.setTypeface(tf);
 
 
-cancel.setOnClickListener(new OnClickListener() {
-	@Override
-	public void onClick(View v) {
-		Intent i1=new Intent(getApplicationContext(),AsciiFragment.class);
-		startActivity(i1);
+		cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent i1=new Intent(getApplicationContext(),DisplayActivity.class);
+				startActivity(i1);
 
-	}
-});
+			}
+		});
 
 
 		back.setOnClickListener(new OnClickListener() {
@@ -80,6 +66,7 @@ cancel.setOnClickListener(new OnClickListener() {
 
 			}
 		});
+
 
        isUpdate=getIntent().getExtras().getBoolean("update");
         if(isUpdate)
@@ -93,74 +80,60 @@ cancel.setOnClickListener(new OnClickListener() {
         }
          
          btn_save.setOnClickListener(this);
-         
          mHelper=new DbHelper(this);
         
-    }
+         }
 
-    // saveButton click event 
-	public void onClick(View v) {
+		// saveButton click event
+		public void onClick(View v) {
 
-		fname=edit_first.getText().toString().trim();
-		lname=edit_last.getText().toString().trim();
-		if(fname.length()>0 && lname.length()>0)
-		{
-			saveData();
+			fname = edit_first.getText().toString().trim();
+			lname = edit_last.getText().toString().trim();
+
+
+			if (fname.matches("[0-9]+")) {
+				Toast.makeText(this, "Please Check Ur Product Value", Toast.LENGTH_SHORT).show();
+			} else if (fname
+					.matches("")) {
+				Toast.makeText(this, "You did not enter a Item Name", Toast.LENGTH_SHORT).show();
+
+			} else if (lname.matches("")) {
+				Toast.makeText(this, "You did not enter a Item Price", Toast.LENGTH_SHORT).show();
+			} else if (fname.matches("") & (lname.matches(""))) {
+				Toast.makeText(this, "You did not enter any value", Toast.LENGTH_SHORT).show();
+			} else {
+				saveData();
+
+			}
+
 		}
-		else if (fname
-				.matches("")) {
-			Toast.makeText(this, "You did not enter a Item Name", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		else if (lname.matches("")){
-			Toast.makeText(this, "You did not enter a Item Price", Toast.LENGTH_SHORT).show();
 
-		/*{
-			AlertDialog.Builder alertBuilder=new AlertDialog.Builder(AddActivity.this);
-			alertBuilder.setTitle("Invalid Data");
-			alertBuilder.setMessage("Please, Enter valid data");
-			alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();*/
-					
+
+
+
+
+			private void saveData(){
+				dataBase=mHelper.getWritableDatabase();
+				ContentValues values=new ContentValues();
+
+				values.put(DbHelper.KEY_FNAME,fname);
+				values.put(DbHelper.KEY_LNAME,lname );
+
+				System.out.println("");
+				if(isUpdate)
+				{
+					//update database with new data
+					dataBase.update(DbHelper.TABLE_NAME, values, DbHelper.KEY_ID+"="+id, null);
 				}
-		else if(fname.matches("")& (lname.matches("")))
-		{
-			Toast.makeText(this, "You did not enter any value", Toast.LENGTH_SHORT).show();
+				else {
+					//insert data into database
+					dataBase.insert(DbHelper.TABLE_NAME, null, values);
+				}
+				//close database
+				dataBase.close();
+				finish();
+
+
+			}
+
 		}
-
-			//alertBuilder.create().show();
-
-		
-}
-
-
-	/**
-	 * save data into SQLite
-	 */
-	private void saveData(){
-		dataBase=mHelper.getWritableDatabase();
-		ContentValues values=new ContentValues();
-		
-		values.put(DbHelper.KEY_FNAME,fname);
-		values.put(DbHelper.KEY_LNAME,lname );
-		
-		System.out.println("");
-		if(isUpdate)
-		{    
-			//update database with new data 
-			dataBase.update(DbHelper.TABLE_NAME, values, DbHelper.KEY_ID+"="+id, null);
-		}
-		else {
-			//insert data into database
-			dataBase.insert(DbHelper.TABLE_NAME, null, values);
-		}
-		//close database
-		dataBase.close();
-		finish();
-		
-		
-	}
-
-}

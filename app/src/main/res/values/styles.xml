@@ -5,6 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+
 
 
 
@@ -31,7 +33,7 @@
         <item name="rd_style">@style/wave1</item>
         <item name="spn_labelEnable">true</item>
         <item name="spn_arrowSwitchMode">true</item>
-        <item name="spn_labelTextColor">#FFFFFF</item>
+        <item name="spn_labelTextColor">#ffffff</item>
         <item name="spn_arrowSize">0dp</item>
         <item name="spn_labelTextSize">12sp</item>
         <item name="spn_dividerHeight">0dp</item>
@@ -40,8 +42,9 @@
         <item name="spn_arrowColor">@color/light_gray</item>
         <item name="spn_popupItemAnimation">@anim/abc_slide_in_bottom</item>
         <item name="spn_popupItemAnimOffset">120</item>
-        <item name="android:popupBackground">#D9000000</item>
+        <item name="android:popupBackground">@color/gray_btn_bg_color</item>
         <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="wave1" parent="Material.Drawable.Ripple.Touch">

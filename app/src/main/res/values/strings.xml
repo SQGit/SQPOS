@@ -56,7 +56,7 @@
     <string name="val7">BILLING HISTORY</string>
     <string name="val_add">Add</string>
     <string name="btn_close">close</string>
-    <string name="val6">Billing</string>
+    <string name="val6">BILLING</string>
     <string name="aaa">BILLING...</string>
 
 
@@ -64,6 +64,7 @@
 
 
     <string name="country_prompt">Choose a country</string>
+    <string name="val8">TODAY SALES REPORT</string>
 
     <string-array name="country_arrays">
         <item>Table1</item>

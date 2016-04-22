@@ -24,28 +24,28 @@ public class DisplayAdapter extends BaseAdapter {
 
 
 
-	public DisplayAdapter(Context c, ArrayList<String> id,ArrayList<String> fname, ArrayList<String> lname) {
-		this.mContext = c;
+		public DisplayAdapter(Context c, ArrayList<String> id,ArrayList<String> fname, ArrayList<String> lname) {
+			this.mContext = c;
 
-		this.id = id;
-		this.firstName = fname;
-		this.lastName = lname;
-	}
+			this.id = id;
+			this.firstName = fname;
+			this.lastName = lname;
+		}
 
-	public int getCount() {
-		// TODO Auto-generated method stub
-		return id.size();
-	}
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return id.size();
+		}
 
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		public Object getItem(int position) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 
 	public View getView(int pos, View child, ViewGroup parent) {
 
@@ -85,15 +85,15 @@ public class DisplayAdapter extends BaseAdapter {
 		}
 		mHolder.txt_id.setText(id.get(pos));
 		mHolder.txt_fName.setText(firstName.get(pos));
-		mHolder.txt_lName.setText(lastName.get(pos));
+		mHolder.txt_lName.setText("Rs  "+lastName.get(pos));
 
 		return child;
 	}
 
-	public class Holder {
-		TextView txt_id;
-		TextView txt_fName;
-		TextView txt_lName;
-	}
+		public class Holder {
+			TextView txt_id;
+			TextView txt_fName;
+			TextView txt_lName;
+		}
 
 }

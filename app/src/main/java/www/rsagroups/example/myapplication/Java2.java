@@ -3,13 +3,13 @@ package www.rsagroups.example.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -107,17 +107,21 @@ public class Java2 extends BaseAdapter {
         t6.setText(java1.get_TABLE());
         t4.setText(java1.get_GRANDTOTAL());
 
+        String total=t4.getText().toString();
+
+        Log.e("tag", "get total_amt" +total);
+
 
 
         v2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String bill=java1._BILLNO;
+                String bill = java1._BILLNO;
 
 
-                Intent move=new Intent(c1,BillList.class);
-                move.putExtra("bill",bill);
+                Intent move = new Intent(c1, BillList.class);
+                move.putExtra("bill", bill);
                 c1.startActivity(move);
                 //Toast.makeText(c1,"Varun(9854752445) Takes responsibility of this person"+bill, Toast.LENGTH_LONG).show();
             }

@@ -100,7 +100,7 @@ public class DisplayActivity extends AppCompatActivity {
 				Log.d("tag","selected position ==>"+position);
 				Log.d("tag","selected view ==>"+view);
 				build = new AlertDialog.Builder(DisplayActivity.this);
-				build.setTitle("Delete " + user_fName.get(position) + " "
+				build.setTitle("Delete " + user_fName.get(position) + ""
 						+ user_lName.get(position));
 				build.setMessage("Do you want to delete ?");
 				build.setPositiveButton("Yes",
@@ -202,9 +202,7 @@ public class DisplayActivity extends AppCompatActivity {
 		super.onResume();
 	}
 
-	/**
-	 * displays data from SQLite
-	 */
+
 	private void displayData() {
 		dataBase = mHelper.getWritableDatabase();
 		Cursor mCursor = dataBase.rawQuery("SELECT * FROM "+ DbHelper.TABLE_NAME, null);

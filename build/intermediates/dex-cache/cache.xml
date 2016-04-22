@@ -2,25 +2,137 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\exploded-aar\com.github.rey5137\material\1.2.2\jars\classes.jar"
+        jar="C:\Users\Admin\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="dde1ea8573633db3da4e8c42d541bfa7d03d6720">
-        <dex dex="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\pre-dexed\debug\classes-c01863c331d527312acbaaf9ee0b160a25e473d3.jar" />
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\library-2.4.0-8145473287de8c2ff70de33d83ab99a0a921997e.jar" />
     </item>
     <item
-        jar="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\cn.pedant.sweetalert\library\1.3\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="0c3529d9491be892952749d252ae1defa9b1f937">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-0e3a7e0a7b89dae2ed7ccbbf980ab48f8dca4e81.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\me.grantland\autofittextview\0.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="81db45283d36bfc6e3380c325fb09b2283f36775">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-c76fbce34dc536c6b25bae723af9e681892181d0.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\mail\mail.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\mail-60f72a44e812b086870072da7ec2bbad20a69b98.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.android.support\design\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-b10a6bd9b1e60b477f083f471f384c756b6b32b6.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.code-troopers.betterpickers\library\2.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="73328355d6092bd4ff4f455ff32410bc5026dceb">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-24340ca14476c322f79cdd5dfb01ad7b8981fcee.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.github.arimorty\floatingsearchview\1.1.2\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="7aeef59b6b3360abc1283c06eaf98ce10fe087b4">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-c445b8eec0b9093694dbee1cb91e062054cfc88a.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-2fbd6ea10f264f277fc5167a8589cbe2e71f2d1f.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-cb1ff5572010fc55b4259c549e0e1327801add7a.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1-8f751961ae458234a37b341fcc705edfb044b965.jar" />
+    </item>
+    <item
+        jar="E:\android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1-529bcc7c105481e9839691151ba9c896529b3dc7.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.bartoszlipinski\viewpropertyobjectanimator\1.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1828dd75d357690efb2c5f4326804e2f7ad21f6c">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-b1afb8005282b22ad3e367104c3265bf674ed850.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\activation\activation.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\activation-2e86b6564841e2b96d85a5268ef5ec8d88edbc27.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.pnikosis\materialish-progress\1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57487745ce450899f9f250d5ae5c092a682cd041">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-db7b80f779df399fb33f29c6147e9810b18fc98b.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
-        <dex dex="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\pre-dexed\debug\classes-9347d117782c64f58de81a9eb9215090c96e0857.jar" />
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-4bba4744cbce7cbaa0abfc87fa6651827a857bf5.jar" />
     </item>
     <item
-        jar="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
+        jar="D:\SQPOS\app\libs\ngx-bluetooth-ascii-printer-sdk-v1.0.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d889f677b587fbf45b55a4e9804d3a6b1b911941">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\ngx-bluetooth-ascii-printer-sdk-v1.0.1-4200ee800c8f045f4140ac01f9ff483b56c87c70.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="09c5e804bc67fc0580360043dff067df574a60d4">
-        <dex dex="C:\Users\Admin\Desktop\TIMEBASEUPDATE\habitat\16-03-2016\Hotel_Ebill\app\build\intermediates\pre-dexed\debug\classes-4a57577fa19c9d86bfdf2b9210f62268b0ab5a12.jar" />
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-14fb33b7f1999f2004994083233f53679d7f29e0.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\additionnal\additionnal.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\additionnal-020d0f041af70037c5b921ebe62ad0b08d4c2843.jar" />
+    </item>
+    <item
+        jar="D:\SQPOS\app\build\intermediates\exploded-aar\com.github.rey5137\material\1.2.2\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="dde1ea8573633db3da4e8c42d541bfa7d03d6720">
+        <dex dex="D:\SQPOS\app\build\intermediates\pre-dexed\debug\classes-aaa0fadcbb2b0eecefca971a8db4137888976423.jar" />
     </item>
 
 </items>

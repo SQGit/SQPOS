@@ -3,17 +3,17 @@ package www.rsagroups.example.myapplication;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
@@ -38,12 +38,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- * Created by Admin on 16-03-2016.
- */
+
+
+
+
 public class AddItemBill extends Activity {
     SQLiteDatabase sqd;
     DbHelper helper;
+    String  g_total;
     ArrayList<HashMap<String, String>> orderList = new ArrayList<HashMap<String, String>>();
     HashMap<String, String> map = new HashMap<String, String>();
     private AlertDialog.Builder build;
@@ -55,25 +57,22 @@ public class AddItemBill extends Activity {
     TextView Billno, bill_txt;
     TextView toatl, bottom;
     TextView sno, in, ip, qt, am, or1, or2;
-    String join, date, storeval;
+    String join, date, storeval,name_cus,table_cus;;
     ProgressDialog dialog;
     Double pric, qtye;
-    String totalvalue, sprice, value, prics, device_num, device_id, time;
+    String  sprice, value, prics, device_num, device_id, time;
     String a, b, c;
-    GMailSender sender;
-    int aa, bb, cc;
-    String currentTitle = "";
-    String currentAuthor = "";
+    String gettot;
+
+    int aa, bb;
     Context context = this;
     String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
-    private ProgressDialog mProgressDlg;
-    private ProgressDialog mConnectingDlg;
-    private BluetoothAdapter mBluetoothAdapter;
-    private P25Connector mConnector;
-    private ArrayList<BluetoothDevice> mDeviceList = new ArrayList<BluetoothDevice>();
 
-    String val,id;
-    int data1,data2;
+
+
+    String val,id,name_customer;
+    String me_name,me_table;
+
     private ArrayList<String> sl_no = new ArrayList<String>();
     private ArrayList<String> product_name1 = new ArrayList<String>();
     private ArrayList<String> product_price = new ArrayList<String>();
@@ -83,10 +82,11 @@ public class AddItemBill extends Activity {
     public DbHelper mHelper;
     private SQLiteDatabase dataBase;
     public static String pn, pp, price;
-    private boolean isUpdate;
+
     private BluetoothPrinter mBtp = BluetoothPrinterMain.mBtp;
     SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
     final String c_date = sd.format(new Date());
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,6 +164,11 @@ public class AddItemBill extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.additem_bill);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddItemBill.this);
+        name_customer = sharedPreferences.getString("username", "");
+        Log.e("tag" ,"name"+name_customer);
+
+
 
         Intent i = getIntent();
         val = i.getStringExtra("idd");
@@ -180,14 +185,13 @@ public class AddItemBill extends Activity {
         Billno = (TextView) findViewById(R.id.textbillval);
         bill_txt = (TextView) findViewById(R.id.textBillno);
         bottom = (TextView) findViewById(R.id.textrights);
-        //sno = (TextView) findViewById(R.id.txt_id);
         in = (TextView) findViewById(R.id.txt_fName);
         ip = (TextView) findViewById(R.id.txt_pprz);
         qt = (TextView) findViewById(R.id.txt_lName);
         am = (TextView) findViewById(R.id.txt_price);
         or1 = (TextView) findViewById(R.id.textView);
         or2 = (TextView) findViewById(R.id.textView2);
-        userList = (ListView) findViewById(R.id.listview);
+        userList = (ListView) findViewById(R.id.Bill_list);
         Total_amount = (TextView) findViewById(R.id.toatlamt);
         toatl = (TextView) findViewById(R.id.grand_tot);
         prduct_name = (FloatingSearchView) findViewById(R.id.product_name);
@@ -201,7 +205,6 @@ public class AddItemBill extends Activity {
         add_item.setTypeface(tf);
         Billno.setTypeface(tf);
         bill_txt.setTypeface(tf);
-//        sno.setTypeface(tf);
         in.setTypeface(tf);
         ip.setTypeface(tf);
         qt.setTypeface(tf);
@@ -213,7 +216,11 @@ public class AddItemBill extends Activity {
         helper = new DbHelper(context);
         Billno.setText(val);
 
+
+
+
         getList();
+
 
         back = (Button) findViewById(R.id.back_icon);
         back.setOnClickListener(new View.OnClickListener() {
@@ -295,7 +302,7 @@ public class AddItemBill extends Activity {
                                 u.setNegativeButton(android.R.string.no,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
-                                                // do nothing
+
                                             }
                                         });
                                 u.show();
@@ -314,16 +321,51 @@ public class AddItemBill extends Activity {
             }
         });
 
+
         print.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
+
+            Log.e("tag", "helo three");
+
+                Cursor c1 = helper.me_name(val);
+
+            Log.e("tag", "helo four");
+
+                if(c1 != null) {
+                if (c1.moveToFirst()) {
+                do {
+
+
+                me_name=c1.getString(c1.getColumnIndex(helper.CUSTOMER_NAME));
+                    me_table=c1.getString(c1.getColumnIndex(helper.SET_TABLE));
+
+
+
+                    Log.e("tag", "<---lv11---->" + me_name);
+                    Log.e("tag", "<---lv12---->" + me_table);
+
+                }
+                while (c1.moveToNext());
+
+
+                }
+
+                }
+
+
+
+
+
+
 
                 printstmt();
-                saveData();
+
+                updateData();
 
 
-            }
-        });
+                }
+                });
 
 
 
@@ -358,7 +400,7 @@ public class AddItemBill extends Activity {
                 while (!resultSet.isAfterLast()) {
 
                     zz.add(new Category_search(resultSet.getString(0)));
-                    //  Toast.makeText(getApplicationContext(), "test1" + resultSet.getString(0), Toast.LENGTH_LONG);
+
                     i++;
 
                     resultSet.moveToNext();
@@ -367,7 +409,40 @@ public class AddItemBill extends Activity {
             }
         });
 
+        userList.setOnItemClickListener(new AdapterView.OnItemClickListener()
 
+                                        {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                                                build = new AlertDialog.Builder(AddItemBill.this);
+                                                build.setTitle("Delete " + product_name1.get(position) + " "
+                                                        + product_price.get(position));
+                                                build.setMessage("Do you want to delete ?");
+                                                build.setPositiveButton("Yes",
+                                                        new DialogInterface.OnClickListener() {
+
+                                                            public void onClick(DialogInterface dialog,
+                                                                                int which) {
+                                                                sl_no.remove(sl_no.size() - 1);
+                                                                product_name1.remove(position);
+                                                                product_price.remove(position);
+                                                                product_qty.remove(position);
+                                                                displayData();
+                                                            }
+                                                        });
+                                                build.setNegativeButton("No",
+                                                        new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                dialog.cancel();
+                                                            }
+                                                        });
+                                                AlertDialog alert = build.create();
+                                                alert.show();
+                                            }
+                                        }
+
+        );
 
         prduct_name.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
@@ -388,12 +463,12 @@ public class AddItemBill extends Activity {
         add_item.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            /*Log.d("product name", "" + pn);
-                                            Log.d("product qty", "" + pp);*/
+
+
                                             pn = prduct_name.getTag().toString();
-                                            //Log.e("RANDOM_VALUE", "1111111111111111111111" + prduct_name);
+
                                             pp = product_qtyz.getText().toString();
-                                            //Log.e("RANDOM_VALUE", "2222222222222222222222" + pp);
+
 
                                             if (!pn.equals("")) {
 
@@ -408,7 +483,7 @@ public class AddItemBill extends Activity {
                                                     resultSet.moveToFirst();
                                                     sprice = resultSet.getString(0);
                                                     product_pprice.add(sprice);
-                                                    Log.e("tag", "product name"+product_name1);
+                                                    Log.e("tag", "product name "+product_name1);
                                                     Log.e("TAG_RESPONSE", "per price" + sprice);
                                                     pric = Double.parseDouble(sprice);
                                                     qtye = Double.parseDouble(pp);
@@ -418,12 +493,12 @@ public class AddItemBill extends Activity {
                                                     value = String.valueOf(val);
                                                     Log.e("TAG_RESPONSE", "3333333333333" + product_price);
                                                     displayData();
-                                                    //getList2();
+
                                                     prduct_name.setSearchText("");
                                                     product_qtyz.setText("");
                                                     prduct_name.setTag("");
                                                 } else {
-                                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getApplicationContext());
+                                                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddItemBill.this);
                                                     alertBuilder.setTitle("Invalid Data");
                                                     alertBuilder.setMessage("QTY ");
                                                     alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -436,7 +511,7 @@ public class AddItemBill extends Activity {
                                                     alertBuilder.show();
                                                 }
                                             } else {
-                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getApplicationContext());
+                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddItemBill.this);
                                                 alertBuilder.setTitle("Invalid Data");
                                                 alertBuilder.setMessage("Please Enter product Item ");
                                                 alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -454,15 +529,8 @@ public class AddItemBill extends Activity {
         );
 
 
-
-
     }
 
-    private void updateData() {
-
-
-
-    }
 
     private void displayData() {
 
@@ -471,7 +539,7 @@ public class AddItemBill extends Activity {
 
         Bill_display_adpter disadpt = new Bill_display_adpter(getApplicationContext(),product_name1, product_pprice, product_qty, product_price);
 
-        // disadpt.notifyDataSetChanged();
+
         userList.setAdapter(disadpt);
 
         double price = 0;
@@ -484,12 +552,24 @@ public class AddItemBill extends Activity {
         aa = sl_no.size();
         bb = aa;
         toatl.setText("" + price);
-        Log.e("tag", "TOTALvalue" + price);
+        Log.e("tag", "My Total Price" + price);
+        Log.e("tag", "My Product Name" + product_name1);
+        Log.e("tag", "My Product Price" + product_pprice);
+        Log.e("tag", "My Product Qty" + product_qty);
+        Log.e("tag", "My Product Total" + product_price);
+
 
 
 
 
     }
+
+
+
+
+
+
+
 
 
 
@@ -499,7 +579,7 @@ public class AddItemBill extends Activity {
 
         Log.e("TAG", "good");
 
-        //Toast.makeText(getApplicationContext(), "show array list", Toast.LENGTH_LONG).show();
+
 
         ArrayList<Java11> lv2 = new ArrayList<Java11>();
         lv2.clear();
@@ -511,17 +591,9 @@ public class AddItemBill extends Activity {
             if (c2.moveToFirst()) {
                 do {
 
-                    //Toast.makeText(getApplicationContext(),"jhhjhjhjhjhjhjhjhh",Toast.LENGTH_LONG).show();
+
                     Java11 jvv = new Java11();
 
-                   /* jvv.set_KEYID1(c2.getString(c2.getColumnIndex(helper.KEY_ID)));
-                    Log.e("Tag", "Rbbbbbbbbb" + jvv.get_KEYID1());
-
-                    jvv.set_DATE1(c2.getString(c2.getColumnIndex(helper.DATE)));
-                    Log.e("Tag", "Rcccccccccc" + jvv.get_DATE1());
-
-                    jvv.set_BILLNO1(c2.getString(c2.getColumnIndex(helper.BILL_NO)));
-                    Log.e("Tag", "REEEEEEEEEEE" + jvv.get_BILLNO1());*/
 
                     jvv.set_ITEMNAME1(c2.getString(c2.getColumnIndex(helper.KEY_FNAME)));
                    // Log.e("Tag", "Item...Name" + jvv.get_ITEMNAME1());
@@ -537,11 +609,7 @@ public class AddItemBill extends Activity {
 
 
 
-                /*  gett_tot =jvv.get_TOTAL1();
-                    Log.e("tag","ttt"+gett_tot);
-                    data1=Integer.valueOf(gett_tot);
-                    data2 = data2 + data1;
-*/
+
 
 
                     this.product_name1.add(jvv.get_ITEMNAME1());
@@ -554,7 +622,7 @@ public class AddItemBill extends Activity {
 
                     Bill_display_adpter disadpt = new Bill_display_adpter(getApplicationContext() ,product_name1, product_pprice, product_qty, product_price);
                     Log.e("tag","$$$$$$$");
-                    // disadpt.notifyDataSetChanged();
+
                     userList.setAdapter(disadpt);
 
 
@@ -580,7 +648,8 @@ public class AddItemBill extends Activity {
         prics = String.valueOf(price);
 
         toatl.setText("" + price);
-        Log.e("tag","TOTALvalue"+price);
+        Log.e("tag","my total  "+price);
+
 
 
 
@@ -590,10 +659,7 @@ public class AddItemBill extends Activity {
             //Log.e("tag","******"+sl_no.get(i));
         }
 
-        // displayData();
 
-       /* Java33 adapter1 = new Java33(AddItemBill.this,lv2);
-        userList.setAdapter(adapter1);*/
     }
 
     public String formatToPrint(String itms, String qtys, String perprice, String pris) {
@@ -690,7 +756,7 @@ public class AddItemBill extends Activity {
     public void printstmt()
     {
 
-        String gettot=toatl.getText().toString();
+
         Log.e("tag","&*^"+gettot);
         Toast.makeText(getApplicationContext(),"Printing..",Toast.LENGTH_LONG).show();
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
@@ -700,15 +766,16 @@ public class AddItemBill extends Activity {
         Log.e("TAG", "phone number" + mPhoneNumber);
         device_id = mDeviceId;
         Log.e("TAG", "phone id" + mDeviceId);
-        // mBtp.showDeviceList(getActivity());
+
         mBtp.setPrintFontStyle(BtpCommands.FONT_STYLE_REGULAR);
         mBtp.setPrintFontSize(BtpCommands.FONT_SIZE_NORMAL);
         mBtp.printTextLine("                  HABITAT");
         mBtp.printTextLine("          Mahindra World City Canopy");
         mBtp.printTextLine("FSSAI:12415008001811");
         mBtp.printLineFeed();
+        mBtp.printTextLine("              Welcome :" + me_name);
         mBtp.printTextLine(currentDateTime + "  BillNo:" + val);
-        //mBtp.printTextLine("time:"+time);
+
         mBtp.printTextLine("------------------------------------------");
         mBtp.printTextLine(" Item                Qty   Price   Amount");
         mBtp.printTextLine("------------------------------------------");
@@ -744,9 +811,9 @@ public class AddItemBill extends Activity {
         }
 
         prics = new String(pri);
-        /////////////////
-        mBtp.printTextLine("Total                          " + gettot);
-        Log.e("tag","total price"+price);
+
+        mBtp.printTextLine("Total                         " + prics);
+        Log.e("tag","total price"+prics);
         mBtp.printTextLine("------------------------------------------");
         mBtp.printLineFeed();
         mBtp.printTextLine("    Designed & Developed by SQIndia.net");
@@ -762,28 +829,17 @@ public class AddItemBill extends Activity {
 
 
 
-    private String[] getArray(ArrayList<BluetoothDevice> data) {
-        String[] list = new String[0];
-
-        if (data == null) return list;
-
-        int size = data.size();
-        list = new String[size];
-
-        for (int i = 0; i < size; i++) {
-            list[i] = data.get(i).getName();
-        }
-
-        return list;
-    }
 
 
 
-    public void saveData()
-    {
+    public void updateData() {
+        g_total = toatl.getText().toString();
         dataBase = mHelper.getWritableDatabase();
 
-        Log.d("tag", sl_no.get(0));
+
+        dataBase = mHelper.getWritableDatabase();
+
+
 
         Log.d("tag", product_price.get(0));
         Log.d("tag", product_qty.get(0));
@@ -793,36 +849,127 @@ public class AddItemBill extends Activity {
 
 
         DbHelper dbh = new DbHelper(getApplicationContext());
-        for (int i = 0; i < sl_no.size(); i++) {
-            String no = sl_no.get(i);
+
+        dbh.delete_item1(dbh, val);
+        dbh.delete_item2(dbh, val);
+
+
+
+
+
+        for (int i = 0; i < product_name1.size(); i++) {
+            String no = product_name1.get(i);
+
             String p_name = product_name1.get(i);
-            Log.e("tag_qqqq", product_name1.get(i));
+            Log.e("tag","A1 " +product_name1.get(i));
+
             String p_price = product_price.get(i);
+            Log.e("tag","A2 " +product_price.get(i));
+
+            String per_prz = product_pprice.get(i);
+            Log.e("tag","A3 " +product_pprice.get(i));
+
+            String p_qty = product_qty.get(i);
+            Log.e("tag","A4 " +product_qty.get(i));
+
+           // dbh.insert1(dbh, c_date, join, "cus_name", "tab_pos", p_name, per_prz, p_qty, p_price);
+            //dbh.insert3(dbh, c_date, join, cus_name, tab_pos, g_total);
+
+            ContentValues value = new ContentValues();
+            value.put(DbHelper.DATE, c_date);
+            value.put(DbHelper.BILL_NO, val);
+            value.put(DbHelper.CUSTOMER_NAME, me_name);
+            value.put(DbHelper.SET_TABLE, me_table);
+            value.put(DbHelper.KEY_FNAME, p_name);
+            value.put(DbHelper.KEY_LNAME, per_prz);
+            value.put(DbHelper.QTY, p_qty);
+            value.put(DbHelper.TOTAL, p_price);
+
+            dataBase.insert(DbHelper.TABLE_NAME1, null, value);
+
+        }
+
+
+        ContentValues value = new ContentValues();
+        value.put(DbHelper.DATE, c_date);
+        value.put(DbHelper.BILL_NO, val);
+        value.put(DbHelper.CUSTOMER_NAME, me_name);
+        value.put(DbHelper.SET_TABLE, me_table);
+        value.put(DbHelper.GRAND_TOTAL, g_total);
+
+
+        dataBase.insert(DbHelper.TABLE_NAME2, null, value);
+      //  dataBase.close();
+
+
+
+
+    }
+
+
+    public void saveData()
+    {
+
+        gettot=toatl.getText().toString();
+        dataBase = mHelper.getWritableDatabase();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddItemBill.this);
+
+        name_cus = sharedPreferences.getString("username", "");
+        table_cus = sharedPreferences.getString("password", "");
+
+
+
+
+
+        DbHelper dbh = new DbHelper(getApplicationContext());
+
+            //dbh.update1(dbh,val,gettot);
+
+
+        for(int i=0; i<product_name1.size();i++)
+        {
+
+            //String no = sl_no.get(i);
+            String itemname = product_name1.get(i);
+            Log.e("tag_qqqq", product_name1.get(i));
+            String itemprz = product_price.get(i);
             String per_prz = product_pprice.get(i);
             String p_qty = product_qty.get(i);
             Log.e("tag", "+++tot+++prz" + per_prz);
+            Log.e("tag", "date" + c_date);
 
 
-            dbh.update(dbh, c_date, join, p_name, per_prz, p_qty, p_price);
+            //dbh.delete_item(dbh);
 
 
-            map.put("No", no);
+
+            //dbh.del_p(dbh, id);
+
+            dbh.update2(dbh, c_date, id, name_cus, table_cus,itemname, itemprz, p_qty, per_prz);
+            //saveData2();
+
+           // dataBase.insert(DbHelper.TABLE_NAME2, null, value);
+
+        }
+
+            /*map.put("No", no);
             map.put("P_Name", p_name);
             map.put("P_Price", p_price);
             map.put("P_Qty", p_qty);
-            orderList.add(map);
+            orderList.add(map);*/
 
 
         }
 
-        ContentValues value = new ContentValues();
+       /* ContentValues value = new ContentValues();
         value.put(DbHelper.DATE, c_date);
         value.put(DbHelper.BILL_NO, join);
         value.put(DbHelper.GRAND_TOTAL, prics);
         Log.e("RANDOM_VALUE", "totalvalue" + join);
         dataBase.insert(DbHelper.TABLE_NAME2, null, value);
         dataBase.close();
-    }
+    }*/
 
 
 
@@ -838,6 +985,15 @@ public class AddItemBill extends Activity {
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
 
     }
+
+
+
+
+
+
+
+
+
 
 
 }

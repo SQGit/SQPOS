@@ -3,5 +3,7 @@
 <resources>
     <color name="ColorPrimary">#FF000000</color>
     <color name="ColorPrimaryDark">#E64A19</color>
+    <color name="textcolor">#FFFFFF</color>
+
 </resources>
 

@@ -3,30 +3,25 @@ package www.rsagroups.example.myapplication;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Admin on 04-03-2016.
@@ -35,6 +30,8 @@ public class Order extends Activity {
     AutoCompleteTextView at;
     ListView lv2;
     Button b1;
+    TextView head,copyright;
+
     AlertDialog dialog;
     SQLiteDatabase sqd;
     ArrayAdapter<String> adapter;
@@ -49,7 +46,16 @@ public class Order extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trialxml);
 
+        head=(TextView)findViewById(R.id.textView7);
+        at=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
         b1=(Button)findViewById(R.id.back_icon);
+        copyright=(TextView)findViewById(R.id.textrights);
+        Typeface tf = Typeface.createFromAsset(getAssets(), "appfont.OTF");
+        head.setTypeface(tf);
+        at.setTypeface(tf);
+        copyright.setTypeface(tf);
+
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

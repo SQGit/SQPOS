@@ -3,13 +3,10 @@ package www.rsagroups.example.myapplication;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +22,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class MainActivity extends AppCompatActivity {
 
     Button addproduct, addbill, billhistory, printerconfig;
@@ -40,13 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       /* getSupportActionBar().setHomeButtonEnabled(true);
 
-        getSupportActionBar().setTitle(Html.fromHtml("<font color='#ffffff'><big><b>DASHBOARD</b></big> </font>"));
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);*/
         reserved = (TextView) findViewById(R.id.textrights);
         dashboard = (TextView) findViewById(R.id.textView7);
 
@@ -71,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         addbill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i2 = new Intent(getApplicationContext(), BluetoothPrinterMain.class);
+                Intent i2 = new Intent(getApplicationContext(), Order.class);
                 startActivity(i2);
 
             }
@@ -88,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         printerconfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i4 = new Intent(getApplicationContext(), Order.class);
+                Intent i4 = new Intent(getApplicationContext(), BluetoothPrinterMain.class);
                 startActivity(i4);
                 exportDB();
 
@@ -217,16 +206,23 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Intent i1 = new Intent(Intent.ACTION_MAIN);
+                       /* Intent i1 = new Intent(Intent.ACTION_MAIN);
                         //i1.setAction(Intent.ACTION_MAIN);
                         i1.addCategory(Intent.CATEGORY_HOME);
                         i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         i1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i1);
+                        finish();*/
+
+                        Intent i1 = new Intent(Intent.ACTION_MAIN);
+                        i1.setAction(Intent.ACTION_MAIN);
+                        i1.addCategory(Intent.CATEGORY_HOME);
+                        i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i1);
                         finish();
-
-
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

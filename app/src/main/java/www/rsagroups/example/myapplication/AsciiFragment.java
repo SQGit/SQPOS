@@ -25,13 +25,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -41,7 +42,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,23 +67,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
 public class AsciiFragment extends Fragment {
 
 
-
     public Integer number;
+    File sd1,data;
     EditText editText_cname;
     ArrayList<HashMap<String, String>> orderList = new ArrayList<HashMap<String, String>>();
     HashMap<String, String> map = new HashMap<String, String>();
     private AlertDialog.Builder build;
-    Button add_item, mail, print, dot, back,save;
+    Button add_item, mail, print, dot, back, save;
     FloatingSearchView prduct_name;
     String O_old_Query, O_new_Query;
     ImageView backic;
@@ -91,20 +88,19 @@ public class AsciiFragment extends Fragment {
     TextView Total_amount, head;
     TextView Billno, bill_txt;
     TextView toatl, bottom;
-    TextView  in, ip, qt, am, or1, or2;
-    String join, date, storeval,get_customername;
+    TextView in, ip, qt, am, or1, or2;
+    String join, date, storeval, get_customername;
     ProgressDialog dialog;
     Double pric, qtye;
     String totalvalue, sprice, value, prics, device_num, device_id, time;
     String a, b, c;
-    GMailSender sender;
-    String cus_name,g_total;
+    //  GMailSender sender;
+    String cus_name, g_total;
     int aa, bb, cc;
-
     String ss;
-
-    private com.rey.material.widget.Spinner spinner1;
-    String[] table_no;
+    Typeface tf;
+    Spinner spinner1;
+    //String[] table_no;
 
 
     String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
@@ -123,31 +119,32 @@ public class AsciiFragment extends Fragment {
     private ListView userList;
     public DbHelper mHelper;
     private SQLiteDatabase dataBase;
-    public static String pn, pp,price;
+    public static String pn, pp, price;
     private boolean isUpdate;
     private BluetoothPrinter mBtp = BluetoothPrinterMain.mBtp;
     SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
     final String c_date = sd.format(new Date());
-     @Override
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.printerconfig3, container, false);
         // textView is the TextView view that should display it
         //save = (Button) view.findViewById(R.id.save_btn);
 
 
-        spinner1 = (com.rey.material.widget.Spinner) view.findViewById(R.id.spinner1);
-        table_no= new String[]{"TABLE 1","TABLE 2","TABLE 3","TABLE 4","TABLE 5","TABLE 6","TABLE 7","TABLE 8","TABLE 9","TABLE 10"};
+        //  table_no = new String[]{"TABLE 1", "TABLE 2", "TABLE 3", "TABLE 4", "TABLE 5", "TABLE 6", "TABLE 7", "TABLE 8", "TABLE 9", "TABLE 10"};
 
-        editText_cname=(EditText) view.findViewById(R.id.editText_customer);
+        editText_cname = (EditText) view.findViewById(R.id.editText_customer);
         head = (TextView) view.findViewById(R.id.textView7);
         add_item = (Button) view.findViewById(R.id.add_bill);
         mail = (Button) view.findViewById(R.id.sendmail);
         print = (Button) view.findViewById(R.id.print);
-        save=(Button)view.findViewById(R.id.save);
+        save = (Button) view.findViewById(R.id.save);
         Billno = (TextView) view.findViewById(R.id.textbillval);
         bill_txt = (TextView) view.findViewById(R.id.textBillno);
         bottom = (TextView) view.findViewById(R.id.textrights);
@@ -156,15 +153,14 @@ public class AsciiFragment extends Fragment {
         ip = (TextView) view.findViewById(R.id.txt_pprz);
         qt = (TextView) view.findViewById(R.id.txt_lName);
         am = (TextView) view.findViewById(R.id.txt_price);
-        or1 = (TextView) view.findViewById(R.id.textView);
-        or2 = (TextView) view.findViewById(R.id.textView2);
+
         userList = (ListView) view.findViewById(R.id.Bill_list);
         Total_amount = (TextView) view.findViewById(R.id.toatlamt);
         toatl = (TextView) view.findViewById(R.id.grand_tot);
         //backic=(ImageView)view.findViewById(R.id.imageView3);
         prduct_name = (FloatingSearchView) view.findViewById(R.id.product_name);
         product_qtyz = (EditText) view.findViewById(R.id.product_qty);
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "appfont.OTF");
+         tf = Typeface.createFromAsset(getActivity().getAssets(), "appfont.OTF");
 
 //        save.setTypeface(tf);
         head.setTypeface(tf);
@@ -179,14 +175,22 @@ public class AsciiFragment extends Fragment {
         Total_amount.setTypeface(tf);
         toatl.setTypeface(tf);
         bottom.setTypeface(tf);
+        editText_cname.setTypeface(tf);
+        product_qtyz.setTypeface(tf);
+
+
+
+
+
+
 
 
         //////////////////////////////// S A V E O R D E R ////////////////////////////////////////////////////////////////
         //////////////// S A V E O R D E R ////////////////////////////////////////////////////////////////
 
 
-
         back = (Button) view.findViewById(R.id.back_icon);
+
         back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,62 +200,88 @@ public class AsciiFragment extends Fragment {
         });
 
 
-     /*  spinner1.setOnItemClickListener(new com.rey.material.widget.Spinner.OnItemClickListener() {
-            @Override
-            public boolean onItemClick(com.rey.material.widget.Spinner parent, View view, int position, long id) {
 
-                spinner1.getSelectedItem().toString();
-                int uu=spinner1.getSelectedItemPosition();
-                String ss="Table"+uu;
-                String tab_name=spinner1.getSelectedItem().toString();
-                Log.e("tag","spin value"+ss);
-             return  true;
+        String[] values = {"Select Table","Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6", "Table 7", "Table 8", "Table 9", "Table 10"};
+        spinner1 = (Spinner) view.findViewById(R.id.spinner1);
+        //ArrayAdapter<String> LTRadapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spinner_item, values);
+        final CustomAdapter arrayAdapter = new CustomAdapter(getActivity(), R.layout.spinner_item, values) {
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
             }
-        });*/
 
-
-        spinner1.setOnItemSelectedListener(new com.rey.material.widget.Spinner.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(com.rey.material.widget.Spinner parent, View view, int position, long id) {
-                spinner1.getSelectedItem().toString();
-                int uu=spinner1.getSelectedItemPosition();
-                 ss="Table"+uu;
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                tv.setTypeface(tf);
 
-                AsciiFragment.this.number = spinner1
-                        .getSelectedItemPosition() + 1;
-                Log.e("tag","position"+number);
+                return view;
+            }
+        };
+        spinner1.setAdapter(arrayAdapter);
+
+
+
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                spinner1.getSelectedItem().toString();
+
+                int uu = spinner1.getSelectedItemPosition();
+                ss = "Table" + uu;
+
+                AsciiFragment.this.number = spinner1.getSelectedItemPosition() + 1;
+                Log.e("tag", "position" + number);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
             }
         });
-
-
-        ArrayAdapter<String> adapt =new ArrayAdapter<String>(getActivity(),R.layout.spin_alloc,R.id.textView8,table_no);
-        spinner1.setAdapter(adapt);
-
-
-
 
 
         TelephonyManager telephony_manager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = telephony_manager.getLine1Number();
         dot = (Button) view.findViewById(R.id.dot_icon);
+
         dot.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                PopupMenu popup = new PopupMenu(getActivity(), dot);
+
+                final PopupMenu popup = new PopupMenu(getActivity(), dot);
                 popup.getMenuInflater().inflate(R.menu.opt_menu, popup.getMenu());
+
+
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
+
                         switch (item.getItemId()) {
+
                             case R.id.item1:
 
-                                AlertDialog.Builder d = new AlertDialog.Builder(getActivity());
+
+                          AlertDialog.Builder d = new AlertDialog.Builder(getActivity());
+                                TextView content = new TextView(getActivity());
+                                content.setText("on another font");
+                                content.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "appfont.OTF"));
+
                                 d.setTitle("NGX Bluetooth Printer");
 
-                                d.setMessage("Are you sure you want to delete your preferred Bluetooth printer ?");
+                                d.setMessage("QAre you sure you want to delete your preferred Bluetooth printer ?");
                                 d.setPositiveButton(android.R.string.yes,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
@@ -315,6 +345,8 @@ public class AsciiFragment extends Fragment {
                 popup.show();
             }
         });
+
+
         Random rand = new Random();
         final int pickedNumber = rand.nextInt(100000);
         Calendar cal = Calendar.getInstance();
@@ -331,6 +363,7 @@ public class AsciiFragment extends Fragment {
         Log.e("TAG", "yyyyyyyyyyyyyyyyyyyyyy" + join);
         date = strDate;
         Log.e("TAG", "dateeeeeeeeeeeeeeeee" + date);
+
         mHelper = new DbHelper(getActivity());
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter == null) {
@@ -397,7 +430,6 @@ public class AsciiFragment extends Fragment {
             Log.e("RANDOM_VALUE", "yyyyyyyyyyyyyyyyyyyyy" + join);
 
 
-
             prduct_name.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
                 @Override
                 public void onSearchTextChanged(String old_Query, String new_Query) {
@@ -435,6 +467,7 @@ public class AsciiFragment extends Fragment {
                     prduct_name.setSearchText(clickSuggestion.Category_name);
                     prduct_name.setTag(clickSuggestion.Category_name);
 
+
                 }
 
                 @Override
@@ -448,7 +481,7 @@ public class AsciiFragment extends Fragment {
                                             @Override
                                             public void onClick(View v) {
 
-                                                Log.e("tag","grand total"+price);
+                                                Log.e("tag", "grand total" + price);
                                                 Log.d("product name", "" + pn);
                                                 Log.d("product qty", "" + pp);
                                                 pn = prduct_name.getTag().toString();
@@ -568,14 +601,29 @@ public class AsciiFragment extends Fragment {
                 if (c3 != null) {
                     if (c3.moveToFirst()) {
                         do {
+                            try {
+                                sendMail();
+                            }catch (IndexOutOfBoundsException e)
+                            {
+                                Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
+                            }
 
 
-                            sendMail();
+
+
                         }
                         while (c3.moveToNext());
                     } else {
-                        saveData();
-                        sendMail();
+                        try
+                        {
+                            saveData();
+                            sendMail();
+                        }
+                        catch (IndexOutOfBoundsException e)
+                        {
+                            Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
+                        }
+
 
 
                     }
@@ -587,6 +635,8 @@ public class AsciiFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+
                 String billno = Billno.getText().toString();
 
                 String Query = "SELECT * FROM " + DbHelper.TABLE_NAME2 + " WHERE " + DbHelper.BILL_NO + "=" + billno;
@@ -596,14 +646,25 @@ public class AsciiFragment extends Fragment {
                 if (c3 != null) {
                     if (c3.moveToFirst()) {
                         do {
+                            try {
 
 
-
-                            Toast.makeText(getActivity(),"data stored",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "data stored", Toast.LENGTH_LONG).show();
+                            } catch (IndexOutOfBoundsException e) {
+                                Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         while (c3.moveToNext());
-                    } else {
-                        saveData();
+                    }
+                else {
+                        try
+                        {
+                            saveData();
+                        }
+                        catch (IndexOutOfBoundsException e)
+                        {
+                            Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
+                        }
 
 
 
@@ -615,6 +676,9 @@ public class AsciiFragment extends Fragment {
         print.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 String billno = Billno.getText().toString();
 
                 String Query = "SELECT * FROM " + DbHelper.TABLE_NAME2 + " WHERE " + DbHelper.BILL_NO + "=" + billno;
@@ -630,16 +694,25 @@ public class AsciiFragment extends Fragment {
                     if (c3.moveToFirst()) {
                         do {
 
-                            printstmt();
+                            try {
+                                printstmt();
+
+                            } catch (IndexOutOfBoundsException e) {
+                                Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
+
+                            }
+
 
                         }
                         while (c3.moveToNext());
                     } else {
-                        saveData();
-                        printstmt();
+                        try {
 
-
-
+                            saveData();
+                            printstmt();
+                        } catch (IndexOutOfBoundsException e) {
+                            Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
+                        }
 
 
                     }
@@ -649,10 +722,6 @@ public class AsciiFragment extends Fragment {
         });
         return view;
     }
-
-
-
-
 
 
     public String formatToPrint(String itms, String qtys, String perprice, String pris) {
@@ -762,14 +831,11 @@ public class AsciiFragment extends Fragment {
     }
 
 
-
-
-
-
     private void displayData() {
 
         Bill_display_adpter disadpt = new Bill_display_adpter(getActivity(), product_name1, product_pprice, product_qty, product_price);
         userList.setAdapter(disadpt);
+
         double price = 0;
         for (String itemprice : product_price) {
             price += Double.parseDouble(itemprice);
@@ -780,22 +846,36 @@ public class AsciiFragment extends Fragment {
         aa = sl_no.size();
         bb = aa;
         toatl.setText("" + price);
+        Log.e("tag", "My Total Price" + price);
+        Log.e("tag", "My Product Name" + product_name1);
+        Log.e("tag", "My Product Price" + product_pprice);
+        Log.e("tag", "My Product Qty" + product_qty);
+        Log.e("tag", "My Product Total" + product_price);
+
 
     }
-
-
-
 
 
     public void saveData() {
         g_total = toatl.getText().toString();
         cus_name = editText_cname.getText().toString();
-        Log.e("tag", "ccc" + cus_name);
+
         String tab_pos;
         tab_pos = String.valueOf(number);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username", cus_name);
+        editor.putString("password", tab_pos);
+
+        editor.commit();
+        editor.commit();
+
+        Log.e("tag", "ccc" + cus_name);
+
         dataBase = mHelper.getWritableDatabase();
 
-        Log.d("tag", sl_no.get(0));
+//        Log.d("tag", sl_no.get(0));
 
         Log.d("tag", product_price.get(0));
         Log.d("tag", product_qty.get(0));
@@ -808,17 +888,28 @@ public class AsciiFragment extends Fragment {
         for (int i = 0; i < sl_no.size(); i++) {
             String no = sl_no.get(i);
             String p_name = product_name1.get(i);
-            Log.e("tag_qqqq", product_name1.get(i));
-            String p_price = product_price.get(i);
-            String per_prz = product_pprice.get(i);
-            String p_qty = product_qty.get(i);
+            Log.e("tag","A1" +product_name1.get(i));
 
+            String p_price = product_price.get(i);
+            Log.e("tag","A2" +product_price.get(i));
+
+            String per_prz = product_pprice.get(i);
+            Log.e("tag","A3" +product_pprice.get(i));
+
+            String p_qty = product_qty.get(i);
+            Log.e("tag","A4" +product_qty.get(i));
 
             dbh.insert1(dbh, c_date, join, cus_name, tab_pos, p_name, per_prz, p_qty, p_price);
             //dbh.insert3(dbh, c_date, join, cus_name, tab_pos, g_total);
             Log.e("tag", "Choose Table" + tab_pos);
             Log.e("tag", "Customer Name" + cus_name);
             Log.e("tag", "Grand Total" + g_total);
+
+            Log.e("tag", "B1" + p_name);
+            Log.e("tag", "B2" + per_prz);
+            Log.e("tag", "B3" + p_qty);
+            Log.e("tag", "B4" + p_price);
+
             map.put("No", no);
             map.put("P_Name", p_name);
             map.put("P_Price", p_price);
@@ -831,32 +922,44 @@ public class AsciiFragment extends Fragment {
         ContentValues value = new ContentValues();
         value.put(DbHelper.DATE, c_date);
         value.put(DbHelper.BILL_NO, join);
-        value.put(DbHelper.CUSTOMER_NAME,cus_name);
-        value.put(DbHelper.SET_TABLE,tab_pos);
+        value.put(DbHelper.CUSTOMER_NAME, cus_name);
+        value.put(DbHelper.SET_TABLE, tab_pos);
         value.put(DbHelper.GRAND_TOTAL, g_total);
         Log.e("RANDOM_VALUE", "totalvalue" + prics);
 
 
         dataBase.insert(DbHelper.TABLE_NAME2, null, value);
         dataBase.close();
+
+
+      /*  Intent gomain2 = new Intent(getActivity(), Dashboard.class);
+        startActivity(gomain2);
+*/
+
     }
 
-        public void sendMail()
-        {
-            storeval = "Mahindra World City" + "\n\t\t\t\t\t\t\tcanopy" + "\n\nHABITAT DETAILS:" + "\n\n\nDate:" + "\t" + c_date + "\nBillNo:\t" + join + "\nItem Name:\t" + product_name1 + "\nItem Price:\t" +
-                    product_pprice + "\nQuantity:\t" + product_qty + "\nTotal Amount:\t" + product_price + "\nGrand Total:\t" + prics;
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "gopinath@sqindia.net", null));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, storeval);
-            startActivity(Intent.createChooser(emailIntent, "Send email..."));
-            userList.setEnabled(false);
+    public void sendMail() {
+        storeval = "Mahindra World City" + "\n\t\t\t\t\t\t\tcanopy" + "\n\nHABITAT DETAILS:" + "\n\n\nDate:" + "\t" + c_date + "\nBillNo:\t" + join + "\nItem Name:\t" + product_name1 + "\nItem Price:\t" +
+                product_pprice + "\nQuantity:\t" + product_qty + "\nTotal Amount:\t" + product_price + "\nGrand Total:\t" + prics;
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "gopinath@sqindia.net", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, storeval);
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        userList.setEnabled(false);
 
-        }
+        exportDB();
 
-    public void printstmt()
-    {
-        Toast.makeText(getActivity(),"Printing..",Toast.LENGTH_LONG).show();
+       /* Intent gomain1 = new Intent(getActivity(), Dashboard.class);
+        startActivity(gomain1);
+*/
+    }
+
+    public void printstmt() {
+
+        cus_name = editText_cname.getText().toString();
+
+
         TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tm.getLine1Number();
         String mDeviceId = tm.getDeviceId();
@@ -871,6 +974,7 @@ public class AsciiFragment extends Fragment {
         mBtp.printTextLine("          Mahindra World City Canopy");
         mBtp.printTextLine("FSSAI:12415008001811");
         mBtp.printLineFeed();
+        mBtp.printTextLine("               Welcome :" + cus_name);
         mBtp.printTextLine(currentDateTime + "  BillNo:" + join);
         //mBtp.printTextLine("time:"+time);
         mBtp.printTextLine("------------------------------------------");
@@ -920,10 +1024,61 @@ public class AsciiFragment extends Fragment {
         mBtp.printLineFeed();
 
         userList.setEnabled(false);
+        Toast.makeText(getActivity(), "Printed Successfully..", Toast.LENGTH_LONG).show();
+
+      Intent gomain = new Intent(getActivity(), MainActivity.class);
+        startActivity(gomain);
+
+
 
 
 
     }
 
-}
+    private void exportDB() {
+        sd1 = new File(Environment.getExternalStorageDirectory() + "/exported/");
+        data = Environment.getDataDirectory();
+        //File mydir = new File(Environment.getExternalStorageDirectory() + "/NewsApp/");
 
+
+        if (!sd1.exists()) {
+            sd1.mkdirs();
+        }
+
+
+        FileChannel source = null;
+        FileChannel destination = null;
+        String currentDBPath = "/data/" + "www.rsagroups.example.myapplication" + "/databases/" + "userdata.db";
+        String backupDBPath = "exportfile.db";
+
+
+        File currentDB = new File(data, currentDBPath);
+        File backupDB = new File(sd1, backupDBPath);
+
+
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+            //Toast.makeText(this, "DB Exported!", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+     /*AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+
+                                LayoutInflater inflater = this.getLayoutInflater();
+                                View dialogView = inflater.inflate(R.layout.alert_label_editor, null);
+                                dialogBuilder.setView(dialogView);
+
+                                EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
+                                editText.setText("NGX Bluetooth Printer");
+                                AlertDialog alertDialog = dialogBuilder.create();
+                                alertDialog.show();*/
+}

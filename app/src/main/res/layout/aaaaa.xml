@@ -29,8 +29,10 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="0dp"
+            android:singleLine="true"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:textSize="17sp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:text="DATE" />
 
@@ -42,7 +44,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:singleLine="true"
+            android:textSize="17sp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:layout_marginLeft="15dp"
             android:text="BILL NO" />
@@ -55,7 +59,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:singleLine="true"
+            android:textSize="17sp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:layout_marginLeft="20dp"
             android:text="CUSTOMER NAME" />
@@ -67,7 +73,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:textSize="17sp"
+            android:singleLine="true"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:layout_marginLeft="15dp"
             android:text="CHOOSE TABLE" />
@@ -79,8 +87,10 @@
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
             android:textColor="#FFFF"
+            android:singleLine="true"
             android:layout_marginLeft="18dp"
-            android:textSize="18.5dp"
+            android:textSize="17sp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:text="ITEM" />
 
@@ -90,7 +100,9 @@
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:singleLine="true"
+            android:textSize="17sp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:text=" PRICE" />
 
@@ -99,9 +111,10 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:textSize="17sp"
             android:singleLine="true"
             android:text="QTY" />
 
@@ -110,8 +123,10 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:textColor="#FFFF"
-            android:textSize="18.5dp"
+            android:textSize="17sp"
+            android:singleLine="true"
             android:layout_marginTop="0dp"
+            android:layout_gravity="left"
             android:gravity="left|center"
             android:text="TOTAL" />
 

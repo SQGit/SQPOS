@@ -9,5 +9,7 @@
         android:id="@+id/option2"
         android:title="Delete Database" />
 
-
+    <item
+        android:id="@+id/option3"
+        android:title="Sales Report" />
 </menu>

@@ -10,11 +10,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,7 +21,7 @@ import java.util.ArrayList;
  */
 public class BillList extends Activity {
 TextView head;
-    TextView sno,dat,bill,cust,sel_table,itemname,itemprz,qty,total;
+    TextView sno,dat,bill,cust,sel_table,itemname,itemprz,qty,total,copyright;
     ListView list;
     Button back;
     DbHelper dbh;
@@ -34,7 +32,7 @@ TextView head;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.billll);
+        setContentView(R.layout.trial);
 
         head=(TextView) findViewById(R.id.textView7);
         //sno=(TextView) findViewById(R.id.t1);
@@ -46,6 +44,7 @@ TextView head;
         itemprz=(TextView) findViewById(R.id.t5);
         qty=(TextView) findViewById(R.id.t6);
         total=(TextView) findViewById(R.id.t7);
+        copyright=(TextView)findViewById(R.id.textrights);
 
         back=(Button) findViewById(R.id.back_icon);
 
@@ -64,6 +63,7 @@ TextView head;
         qty.setTypeface(tf);
         total.setTypeface(tf);
         head.setTypeface(tf);
+        copyright.setTypeface(tf);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,15 +87,8 @@ TextView head;
         Log.e("tag","billno"+billno);
 
 
-
-
-
                 getList();
-                //Toast.makeText(getApplicationContext(), "hello hai world", Toast.LENGTH_LONG).show();
 
-               /* Intent move=new Intent(getApplicationContext(),BillList.class);
-                startActivity(move);
-*/
 
     }
 
@@ -105,7 +98,6 @@ TextView head;
 
         Log.e("TAG","good");
 
-        //Toast.makeText(getApplicationContext(), "show array list", Toast.LENGTH_LONG).show();
 
         ArrayList<Java11> lv2 = new ArrayList<Java11>();
         lv2.clear();
