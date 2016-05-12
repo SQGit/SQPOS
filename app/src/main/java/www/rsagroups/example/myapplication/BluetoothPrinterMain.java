@@ -28,24 +28,33 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ngx.BluetoothPrinter;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 
 public class BluetoothPrinterMain extends ActionBarActivity {
 
 
     public static BluetoothPrinter mBtp = BluetoothPrinter.INSTANCE;
-
     private static FragmentManager fragMgr;
     private Fragment nm;
     private static final String cHomeStack = "home";
     private TextView tvStatus;
+    String ss;
+    Typeface tf;
 
     private String mConnectedDeviceName = "";
     public static final String title_connecting = "connecting...";
@@ -60,27 +69,20 @@ public class BluetoothPrinterMain extends ActionBarActivity {
                 case BluetoothPrinter.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothPrinter.STATE_CONNECTED:
-                            //tvStatus.setText(title_connected_to);
-                            //tvStatus.append(mConnectedDeviceName);
                             break;
                         case BluetoothPrinter.STATE_CONNECTING:
-                            //tvStatus.setText(title_connecting);
                             break;
                         case BluetoothPrinter.STATE_LISTEN:
                         case BluetoothPrinter.STATE_NONE:
-                            //tvStatus.setText(title_not_connected);
                             break;
                     }
                     break;
                 case BluetoothPrinter.MESSAGE_DEVICE_NAME:
-                    // save the connected device's name
                     mConnectedDeviceName = msg.getData().getString(
                             BluetoothPrinter.DEVICE_NAME);
 
                     break;
                 case BluetoothPrinter.MESSAGE_STATUS:
-                    //tvStatus.setText(msg.getData().getString(
-                    //BluetoothPrinter.STATUS_TEXT));
                     break;
                 default:
                     break;
@@ -92,15 +94,23 @@ public class BluetoothPrinterMain extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.btp_main);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), "appfont.OTF");
+        fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        ss = currentDateTimeString;
+        Log.e("TAg", "sssss" + ss);
+
+        tf = Typeface.createFromAsset(getAssets(), "appfont.OTF");
+        SpannableStringBuilder SS = new SpannableStringBuilder("ADD & SEARCH ITEM");
+        SS.setSpan(new CustomTypefaceSpan("ADD & SEARCH ITEM", tf), 0, SS.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        getSupportActionBar().setTitle(SS);
 
         tvStatus = (TextView) findViewById(R.id.tvStatus);
 
-
         fragMgr = getSupportFragmentManager();
-
-        // lockOrientation(this);
-
         mBtp.setDebugService(BuildConfig.DEBUG);
 
         try {
@@ -164,12 +174,8 @@ public class BluetoothPrinterMain extends ActionBarActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_clear_device:
-                // deletes the last used printer, will avoid auto conne
-
-
                 Builder d = new Builder(this);
                 d.setTitle("NGX Bluetooth Printer");
-                // d.setIcon(R.drawable.ic_launcher);
                 d.setMessage("Are you sure you want to delete your preferred Bluetooth printer ?");
                 d.setPositiveButton(android.R.string.yes,
                         new DialogInterface.OnClickListener() {
@@ -189,20 +195,11 @@ public class BluetoothPrinterMain extends ActionBarActivity {
                 d.show();
                 return true;
             case R.id.action_connect_device:
-                // show a dialog to select from the list of available printers
                 mBtp.showDeviceList(this);
-
-
-
-
-
-
-
                 return true;
             case R.id.action_unpair_device:
                 Builder u = new Builder(this);
                 u.setTitle("Bluetooth Printer unpair");
-                // d.setIcon(R.drawable.ic_launcher);
                 u.setMessage("Are you sure you want to unpair all Bluetooth printers ?");
                 u.setPositiveButton(android.R.string.yes,
                         new DialogInterface.OnClickListener() {
@@ -227,41 +224,6 @@ public class BluetoothPrinterMain extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

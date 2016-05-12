@@ -1,21 +1,36 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'sqpos'
+            keyPassword '123456'
+            storeFile file('C:/Users/Admin/Desktop/recover/SQPOS/test.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "www.rsagroups.example.myapplication"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+            proguardFile 'C:/Users/Admin/Desktop/recover/SQPOS/test.jks'
+            zipAlignEnabled true
+        }
+    }
+    productFlavors {
     }
 }
 android {
@@ -24,6 +39,14 @@ android {
         exclude 'META-INF/LICENSE.txt'
     }
 }
+
+
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -34,8 +57,7 @@ dependencies {
     compile project(':additionnal')
     compile project(':mail')
     compile files('libs/ngx-bluetooth-ascii-printer-sdk-v1.0.1.jar')
-
-
     compile 'com.github.rey5137:material:1.2.2'
     compile 'com.code-troopers.betterpickers:library:2.3.0'
+    compile 'com.github.GcsSloop:FontsManager:v1.0.0'
 }

@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/option1"
+        android:id="@+id/exportdb"
         android:title="Export DB"
         />
     <item
-        android:id="@+id/option2"
+        android:id="@+id/deletedb"
         android:title="Delete Database" />
 
     <item
-        android:id="@+id/option3"
+        android:id="@+id/salesrt"
         android:title="Sales Report" />
 </menu>

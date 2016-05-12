@@ -32,17 +32,31 @@
         android:textColor="@color/textcolor"
         />
 
+
+
+    <TextView
+        android:id="@+id/txt_rate"
+        android:layout_width="10dp"
+        android:layout_height="30dp"
+        android:layout_weight="0.5"
+        android:singleLine="true"
+        android:textSize="18sp"
+        android:text=""
+        android:layout_gravity="right"
+        android:gravity="right|center"
+        android:textColor="@color/textcolor"
+        />
+
     <TextView
         android:id="@+id/txt_lName"
         android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1.2"
         android:text="1000"
         android:layout_gravity="right"
         android:gravity="right|center"
         android:singleLine="true"
         android:textSize="18sp"
-        android:layout_marginLeft="40dp"
         android:textColor="@color/textcolor"/>
 
 </LinearLayout>

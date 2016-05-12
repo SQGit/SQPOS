@@ -3,9 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-
-
-    <EditText
+   <EditText
         android:id="@+id/textDialog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

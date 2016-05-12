@@ -27,12 +27,9 @@ String[] data;
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
         View view = super.getView(position, convertView, parent);
-
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(),
                 "appfont.OTF");
-
         TextView suggestion = (TextView) view.findViewById(R.id.text);
 
         suggestion.setTypeface(tf);

@@ -17,7 +17,6 @@ import java.util.Date;
 public class DateUtil {
 	public static String format(String date, String format) {
 		Date dt = DateUtil.stringToDateTime(date);
-		
 		return DateUtil.dateToString(dt, format);
 	}
 	

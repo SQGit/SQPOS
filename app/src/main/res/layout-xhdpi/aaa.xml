@@ -11,84 +11,68 @@
         android:orientation="horizontal"
         android:layout_marginTop="15dp">
 
-
-
         <TextView
             android:id="@+id/dtextView"
             android:layout_width="110dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:textColor="#FFFF"
-            android:textSize="17sp"
-            android:layout_marginLeft="17dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="16sp"
             android:text="Date"
+            android:paddingBottom="7dp"
             android:layout_gravity="left"
-            android:gravity="left|center"
-          />
-
+            android:gravity="left|center" />
 
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="120dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:textColor="#FFFF"
             android:text="billno"
-            android:textSize="17sp"
+            android:paddingBottom="7dp"
+            android:textSize="16sp"
             android:layout_marginLeft="7dp"
             android:layout_gravity="left"
-            android:gravity="left|center"
-
-      />
+            android:gravity="left|center" />
 
 
-<TextView
+            <TextView
             android:id="@+id/textView4"
             android:layout_width="150dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:text="customer name"
             android:textColor="#FFFF"
-            android:textSize="17sp"
+            android:textSize="16sp"
+            android:paddingBottom="7dp"
             android:gravity="left|center"
             android:layout_marginLeft="9dp"
-            android:layout_gravity="left"
-            />
-
-
+            android:layout_gravity="left" />
 
 
         <TextView
             android:id="@+id/table"
             android:layout_width="70dp"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:text="table"
             android:textColor="#FFFF"
-            android:textSize="17sp"
+            android:textSize="16sp"
+            android:paddingBottom="7dp"
             android:gravity="left|center"
             android:layout_marginLeft="9dp"
-            android:layout_gravity="left"
-            />
+            android:layout_gravity="left" />
 
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="80dp"
-            android:layout_height="25dp"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
             android:text="grand tot"
             android:textColor="#FFFF"
-            android:textSize="17sp"
+            android:paddingBottom="7dp"
+            android:textSize="16sp"
             android:gravity="left|center"
-            android:layout_gravity="left"
-            />
-
-        <Button
-                android:id="@+id/view_icon"
-                android:layout_width="80dp"
-                android:layout_height="25dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="left"
-                android:gravity="left|center"
-                android:background="@mipmap/view_icon"
-          />
+            android:layout_gravity="left" />
 
     </LinearLayout>
 </LinearLayout>

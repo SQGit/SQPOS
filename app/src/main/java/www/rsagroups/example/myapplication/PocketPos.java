@@ -36,12 +36,8 @@ public class PocketPos
   public static final byte FRAME_ACK = 0x06;
   public static final byte FRAME_NACK = 0x15;
   public static final byte FRAME_ENQ = 0x05;
-  
-  
-  
   public static final byte FRAME_EOT = 0x04;
   public static final byte FRAME_ETX = 0x03;
- 
   public static final byte FRAME_PHONE = 0x50;
   public static final byte FRAME_RSP = 0x52;
   public static final byte FRAME_TOF_PRINT = 0x44;
@@ -53,53 +49,22 @@ public class PocketPos
   public static final int TAG_OUTPUT_PHONE = 161; //a1
   public static final int TAG_LABEL_PHONE = 162;//a2
   public static final int TAG_ITEMS_PHONE = 163;//a3
-  
   public static final int TAG_INPUT_B1 = 177;//b1;
   public static final int TAG_INPUT_B2 = 178;//b2
   public static final int TAG_INPUT_B3 = 179;//b3
   public static final int TAG_INPUT_B4 = 180; //b4
-
   public static final int BYTES_OF_DATA_LENGTH = 4;
-
   public static final byte NO_CRYPTO = (byte) 0x00;
 
   // the command type
   public final static int FRAME_REQUEST = 1;
   public final static int FRAME_RESPONSE = 2;
-
   public final static byte FONT_SMALL = 1;//������
   public final static byte FONT_BIG = (byte)0xC0; //0x08 = Double-height mode  selected 0x10 = Double-width mode selected
   public final static byte FONT_DEFAULT = 0;
   public static byte fontSize = FONT_DEFAULT;
   
-  
-  /*
-  Bit Off/On Value Function
-  0 Select 32 dot font (24
-  char/per line)
-  eg. 1B 21 00
-  0
-  -- 1 Select 24 dot font (36
-  char/per line)
-  eg. 1B 21 01
-  1 -- -- undefined
-  2 -- -- undefined
-  3 -- -- undefined
-  off 0 Double-height mode not
-  selected
-  4
-  on 1 Double-height mode
-  selected
-  off 0 Double-width mode not
-  selected
-  5
-  on 1 Double-width mode selected
-  6 -- -- undefined
-  off 0 Underline mode not
-  selected
-  7
-  on 1 Underline mode selected
-*/
+
   
   public final static byte LANGUAGE_ENGLISH = 0;
   public final static byte LANGUAGE_FRANCE = 1;
@@ -114,8 +79,6 @@ public class PocketPos
   public final static byte LANGUAGE_SPAIN2 = 10;
   public final static byte LANGUAGE_PORTUGUESE = 11;
   public final static byte LANGUAGE_CHINESE = 48;
-
-  
   public final static int TYPE_IMAGE = 2;
   public final static int TYPE_IDLE_TIME = 3;
   public final static int TYPE_POWEROFF_TIME = 4;

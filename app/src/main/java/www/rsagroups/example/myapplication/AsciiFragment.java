@@ -36,17 +36,19 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,60 +72,56 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
-
 public class AsciiFragment extends Fragment {
-
-
+    public static String pn, pp, price;
     public Integer number;
-    File sd1,data;
+    public DbHelper mHelper;
+    File sd1, data;
     EditText editText_cname;
     ArrayList<HashMap<String, String>> orderList = new ArrayList<HashMap<String, String>>();
     HashMap<String, String> map = new HashMap<String, String>();
-    private AlertDialog.Builder build;
-    Button add_item, mail, print, dot, back, save;
+    Button add_item, mail, print, save;
     FloatingSearchView prduct_name;
     String O_old_Query, O_new_Query;
     ImageView backic;
     EditText product_qtyz;
-    TextView Total_amount, head;
+    TextView Total_amount;
     TextView Billno, bill_txt;
     TextView toatl, bottom;
     TextView in, ip, qt, am, or1, or2;
     String join, date, storeval, get_customername;
     ProgressDialog dialog;
     Double pric, qtye;
-    String totalvalue, sprice, value, prics, device_num, device_id, time;
+    String sprice, value, prics, device_num, device_id, time;
     String a, b, c;
     //  GMailSender sender;
-    String cus_name, g_total;
+    String cus_name, g_total, currency, token_mail;
     int aa, bb, cc;
     String ss;
     Typeface tf;
     Spinner spinner1;
     //String[] table_no;
-
-
+    int ij, inc = 0;
     String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
+    String sos, token_footer;
+    SimpleDateFormat sd = new SimpleDateFormat("d/M/yyyy");
+    final String c_date = sd.format(new Date());
+    String b1, b2, b3, b4, b5;
+    private AlertDialog.Builder build;
     private ProgressDialog mProgressDlg;
     private ProgressDialog mConnectingDlg;
     private BluetoothAdapter mBluetoothAdapter;
     private P25Connector mConnector;
     private ArrayList<BluetoothDevice> mDeviceList = new ArrayList<BluetoothDevice>();
-
-
     private ArrayList<String> sl_no = new ArrayList<String>();
     private ArrayList<String> product_name1 = new ArrayList<String>();
     private ArrayList<String> product_price = new ArrayList<String>();
     private ArrayList<String> product_qty = new ArrayList<String>();
     private ArrayList<String> product_pprice = new ArrayList<String>();
     private ListView userList;
-    public DbHelper mHelper;
     private SQLiteDatabase dataBase;
-    public static String pn, pp, price;
     private boolean isUpdate;
     private BluetoothPrinter mBtp = BluetoothPrinterMain.mBtp;
-    SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
-    final String c_date = sd.format(new Date());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,14 +131,10 @@ public class AsciiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.printerconfig3, container, false);
-        // textView is the TextView view that should display it
-        //save = (Button) view.findViewById(R.id.save_btn);
-
-
-        //  table_no = new String[]{"TABLE 1", "TABLE 2", "TABLE 3", "TABLE 4", "TABLE 5", "TABLE 6", "TABLE 7", "TABLE 8", "TABLE 9", "TABLE 10"};
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         editText_cname = (EditText) view.findViewById(R.id.editText_customer);
-        head = (TextView) view.findViewById(R.id.textView7);
         add_item = (Button) view.findViewById(R.id.add_bill);
         mail = (Button) view.findViewById(R.id.sendmail);
         print = (Button) view.findViewById(R.id.print);
@@ -148,26 +142,28 @@ public class AsciiFragment extends Fragment {
         Billno = (TextView) view.findViewById(R.id.textbillval);
         bill_txt = (TextView) view.findViewById(R.id.textBillno);
         bottom = (TextView) view.findViewById(R.id.textrights);
-        //sno = (TextView) view.findViewById(R.id.txt_id);
         in = (TextView) view.findViewById(R.id.txt_fName);
         ip = (TextView) view.findViewById(R.id.txt_pprz);
         qt = (TextView) view.findViewById(R.id.txt_lName);
         am = (TextView) view.findViewById(R.id.txt_price);
-
         userList = (ListView) view.findViewById(R.id.Bill_list);
         Total_amount = (TextView) view.findViewById(R.id.toatlamt);
         toatl = (TextView) view.findViewById(R.id.grand_tot);
-        //backic=(ImageView)view.findViewById(R.id.imageView3);
         prduct_name = (FloatingSearchView) view.findViewById(R.id.product_name);
         product_qtyz = (EditText) view.findViewById(R.id.product_qty);
-         tf = Typeface.createFromAsset(getActivity().getAssets(), "appfont.OTF");
 
-//        save.setTypeface(tf);
-        head.setTypeface(tf);
+
+       /* product_name1.add("first");
+        product_qty.add("5");
+        product_price.add("15");
+        product_pprice.add("3");
+        sl_no.add("" + (sl_no.size() + 1));*/
+
+
+        tf = Typeface.createFromAsset(getActivity().getAssets(), "appfont.OTF");
         add_item.setTypeface(tf);
         Billno.setTypeface(tf);
         bill_txt.setTypeface(tf);
-//        sno.setTypeface(tf);
         in.setTypeface(tf);
         ip.setTypeface(tf);
         qt.setTypeface(tf);
@@ -179,36 +175,27 @@ public class AsciiFragment extends Fragment {
         product_qtyz.setTypeface(tf);
 
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        token_footer = sharedPreferences.getString("footer", "");
+        // Log.e("tag", "getvalue" + token_footer);
+        bottom.setText(token_footer);
+        token_mail = sharedPreferences.getString("mail", "");
 
 
+        b1 = sharedPreferences.getString("s1", "");
+        b2 = sharedPreferences.getString("s2", "");
+        b3 = sharedPreferences.getString("s3", "");
+        b4 = sharedPreferences.getString("s4", "");
+        //  Log.e("tag", "billone" + b1);
 
+        currency = sharedPreferences.getString("send2", "");
 
-
-
-        //////////////////////////////// S A V E O R D E R ////////////////////////////////////////////////////////////////
-        //////////////// S A V E O R D E R ////////////////////////////////////////////////////////////////
-
-
-        back = (Button) view.findViewById(R.id.back_icon);
-
-        back.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent back = new Intent(getActivity(), MainActivity.class);
-                startActivity(back);
-            }
-        });
-
-
-
-        String[] values = {"Select Table","Table 1", "Table 2", "Table 3", "Table 4", "Table 5", "Table 6", "Table 7", "Table 8", "Table 9", "Table 10"};
+        String[] values = {" Select Table", "  Table 1", "  Table 2", "  Table 3", "  Table 4", "  Table 5", "  Table 6", "  Table 7", "  Table 8", "  Table 9", "  Table 10"};
         spinner1 = (Spinner) view.findViewById(R.id.spinner1);
         //ArrayAdapter<String> LTRadapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spinner_item, values);
         final CustomAdapter arrayAdapter = new CustomAdapter(getActivity(), R.layout.spinner_item, values) {
             public boolean isEnabled(int position) {
                 if (position == 0) {
-                    // Disable the first item from Spinner
-                    // First item will be use for hint
                     return false;
                 } else {
                     return true;
@@ -221,12 +208,10 @@ public class AsciiFragment extends Fragment {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
                 tv.setTypeface(tf);
-
                 return view;
             }
         };
         spinner1.setAdapter(arrayAdapter);
-
 
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -236,11 +221,8 @@ public class AsciiFragment extends Fragment {
 
                 int uu = spinner1.getSelectedItemPosition();
                 ss = "Table" + uu;
-
-                AsciiFragment.this.number = spinner1.getSelectedItemPosition() + 1;
-                Log.e("tag", "position" + number);
-
-
+                AsciiFragment.this.number = spinner1.getSelectedItemPosition();
+                //   Log.e("tag", "position" + number);
             }
 
             @Override
@@ -251,101 +233,6 @@ public class AsciiFragment extends Fragment {
 
 
         TelephonyManager telephony_manager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        String mPhoneNumber = telephony_manager.getLine1Number();
-        dot = (Button) view.findViewById(R.id.dot_icon);
-
-        dot.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-                final PopupMenu popup = new PopupMenu(getActivity(), dot);
-                popup.getMenuInflater().inflate(R.menu.opt_menu, popup.getMenu());
-
-
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-
-
-                        switch (item.getItemId()) {
-
-                            case R.id.item1:
-
-
-                          AlertDialog.Builder d = new AlertDialog.Builder(getActivity());
-                                TextView content = new TextView(getActivity());
-                                content.setText("on another font");
-                                content.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "appfont.OTF"));
-
-                                d.setTitle("NGX Bluetooth Printer");
-
-                                d.setMessage("QAre you sure you want to delete your preferred Bluetooth printer ?");
-                                d.setPositiveButton(android.R.string.yes,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                mBtp.clearPreferredPrinter();
-                                                Toast.makeText(getActivity(),
-                                                        "Preferred Bluetooth printer cleared",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                d.setNegativeButton(android.R.string.no,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // do nothing
-                                            }
-                                        });
-                                d.show();
-
-
-                                return true;
-                            case R.id.item2:
-
-
-                                mBtp.showDeviceList(getActivity());
-
-                                return true;
-                            case R.id.item3:
-
-                                AlertDialog.Builder u = new AlertDialog.Builder(getActivity());
-                                u.setTitle("Bluetooth Printer unpair");
-                                // d.setIcon(R.drawable.ic_launcher);
-                                u.setMessage("Are you sure you want to unpair all Bluetooth printers ?");
-                                u.setPositiveButton(android.R.string.yes,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (mBtp.unPairBluetoothPrinters()) {
-                                                    Toast.makeText(
-                                                            getActivity(),
-                                                            "All NGX Bluetooth printer(s) unpaired",
-                                                            Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                                u.setNegativeButton(android.R.string.no,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // do nothing
-                                            }
-                                        });
-                                u.show();
-
-
-                                return true;
-
-                            default:
-                                return true;
-                        }
-
-                    }
-                });
-
-                popup.show();
-            }
-        });
-
 
         Random rand = new Random();
         final int pickedNumber = rand.nextInt(100000);
@@ -360,9 +247,9 @@ public class AsciiFragment extends Fragment {
         String strDate = sdf.format(cal.getTime());
         int i = 0;
         join = month_name + pickedNumber;
-        Log.e("TAG", "yyyyyyyyyyyyyyyyyyyyyy" + join);
+        // Log.e("TAG", "yyyyyyyyyyyyyyyyyyyyyy" + join);
         date = strDate;
-        Log.e("TAG", "dateeeeeeeeeeeeeeeee" + date);
+        //  Log.e("TAG", "dateeeeeeeeeeeeeeeee" + date);
 
         mHelper = new DbHelper(getActivity());
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -370,16 +257,14 @@ public class AsciiFragment extends Fragment {
             //showUnsupported();
         } else {
             if (!mBluetoothAdapter.isEnabled()) {
-                //showDisabled();
+
             } else {
-                //showEnabled();
+
 
                 Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
                 if (pairedDevices != null) {
                     mDeviceList.addAll(pairedDevices);
-
-                    //updateDeviceList();
                 }
             }
 
@@ -390,7 +275,6 @@ public class AsciiFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-
                     mBluetoothAdapter.cancelDiscovery();
                 }
             });
@@ -401,13 +285,11 @@ public class AsciiFragment extends Fragment {
             mConnector = new P25Connector(new P25Connector.P25ConnectionListener() {
                 @Override
                 public void onStartConnecting() {
-                    //mConnectingDlg.show();
                 }
 
                 @Override
                 public void onConnectionSuccess() {
                     mConnectingDlg.dismiss();
-                    //showConnected();
                 }
 
                 @Override
@@ -417,24 +299,52 @@ public class AsciiFragment extends Fragment {
 
                 @Override
                 public void onConnectionCancelled() {
-                    //mConnectingDlg.dismiss();
                 }
 
                 @Override
                 public void onDisconnected() {
-                    //showDisonnected();
+
                 }
             });
             prduct_name.setTag("");
             Billno.setText(join);
-            Log.e("RANDOM_VALUE", "yyyyyyyyyyyyyyyyyyyyy" + join);
+            //   Log.e("RANDOM_VALUE", "yyyyyyyyyyyyyyyyyyyyy" + join);
+
+
+
+
+            editText_cname.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                    if (actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
 
 
             prduct_name.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
                 @Override
                 public void onSearchTextChanged(String old_Query, String new_Query) {
 
-                    Log.d("tag", "" + old_Query + "" + new_Query);
+                    //   Log.d("tag", "" + old_Query + "" + new_Query);
                     O_old_Query = old_Query.toString();
                     O_new_Query = new_Query.toString();
                     ArrayList<Category_search> zz = new ArrayList<Category_search>();
@@ -449,9 +359,7 @@ public class AsciiFragment extends Fragment {
                     while (!resultSet.isAfterLast()) {
 
                         zz.add(new Category_search(resultSet.getString(0)));
-                        //  Toast.makeText(getApplicationContext(), "test1" + resultSet.getString(0), Toast.LENGTH_LONG);
                         i++;
-
                         resultSet.moveToNext();
                     }
                     prduct_name.swapSuggestions(zz);
@@ -463,16 +371,12 @@ public class AsciiFragment extends Fragment {
                 @Override
                 public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
                     Category_search clickSuggestion = (Category_search) searchSuggestion;
-                    //    Toast.makeText(getApplicationContext(), clickSuggestion.Category_name + " - ", Toast.LENGTH_SHORT).show();
                     prduct_name.setSearchText(clickSuggestion.Category_name);
                     prduct_name.setTag(clickSuggestion.Category_name);
-
-
                 }
 
                 @Override
                 public void onSearchAction() {
-
                 }
             });
 
@@ -481,66 +385,170 @@ public class AsciiFragment extends Fragment {
                                             @Override
                                             public void onClick(View v) {
 
-                                                Log.e("tag", "grand total" + price);
-                                                Log.d("product name", "" + pn);
-                                                Log.d("product qty", "" + pp);
+                                                if (v != null) {
+                                                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                                                }
+                                                String cmn = editText_cname.getText().toString();
+                                                String spim = spinner1.getSelectedItem().toString();
+                                                String editTextString = product_qtyz.getText().toString();
                                                 pn = prduct_name.getTag().toString();
-                                                Log.e("RANDOM_VALUE", "1111111111111111111111" + prduct_name);
                                                 pp = product_qtyz.getText().toString();
-                                                Log.e("RANDOM_VALUE", "2222222222222222222222" + pp);
 
-                                                if (!pn.equals("")) {
-                                                    if (!pp.equals("")) {
 
-                                                        sl_no.add("" + (sl_no.size() + 1));
-                                                        product_name1.add(pn);
-                                                        product_qty.add(pp);
-                                                        dataBase = mHelper.getWritableDatabase();
-                                                        Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
-                                                        resultSet.moveToFirst();
-                                                        sprice = resultSet.getString(0);
-                                                        product_pprice.add(sprice);
-                                                        Log.e("TAG_RESPONSE", "per price" + sprice);
-                                                        pric = Double.parseDouble(sprice);
-                                                        qtye = Double.parseDouble(pp);
-                                                        Log.e("TAG_RESPONSE", "quantity" + qtye);
-                                                        product_price.add("" + (pric * qtye));
-                                                        double val = pric * qtye;
-                                                        value = String.valueOf(val);
-                                                        Log.e("TAG_RESPONSE", "3333333333333" + product_price);
-                                                        displayData();
-                                                        prduct_name.setSearchText("");
-                                                        product_qtyz.setText("");
-                                                        prduct_name.setTag("");
+                                                if (!(cmn.equals("") || (spim.equals("position0")))) {
+                                                    if (!(editTextString.equals("0"))) {
+                                                        if (!pn.equals("")) {
+                                                            if (!pp.equals("")) {
+                                                                getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                                                                sl_no.add("" + (sl_no.size() + 1));
+
+
+
+
+
+
+                                                                if (product_name1.size() == 0) {
+                                                                    product_name1.add(pn);
+                                                                    product_qty.add(pp);
+
+                                                                    dataBase = mHelper.getWritableDatabase();
+                                                                    Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                                    resultSet.moveToFirst();
+                                                                    sprice = resultSet.getString(0);
+                                                                    product_pprice.add(sprice);
+                                                                    pric = Double.parseDouble(sprice);
+                                                                    qtye = Double.parseDouble(pp);
+                                                                    product_price.add("" + (pric * qtye));
+                                                                    double val = pric * qtye;
+                                                                    value = String.valueOf(val);
+
+                                                                }
+
+                                                                else if (product_name1.size() > 0) {
+
+
+                                                                    for (int i = 0; i < product_name1.size(); i++) {
+                                                                        if (pn.matches(product_name1.get(i))) {
+
+                                                                            product_qty.set(i, pp);
+                                                                            product_name1.set(i, pn);
+
+                                                                            dataBase = mHelper.getWritableDatabase();
+                                                                            Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                                            resultSet.moveToFirst();
+                                                                            sprice = resultSet.getString(0);
+                                                                            product_pprice.set(i,sprice);
+                                                                            pric = Double.parseDouble(sprice);
+                                                                            qtye = Double.parseDouble(pp);
+                                                                            product_price.set(i,"" + (pric * qtye));
+                                                                            double val = pric * qtye;
+                                                                            value = String.valueOf(val);
+
+                                                                        } else {
+
+                                                                            if (!product_name1.contains(pn)) {
+                                                                                product_name1.add(pn);
+                                                                                product_qty.add(pp);
+
+                                                                                dataBase = mHelper.getWritableDatabase();
+                                                                                Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                                                resultSet.moveToFirst();
+                                                                                sprice = resultSet.getString(0);
+                                                                                product_pprice.add(sprice);
+                                                                                pric = Double.parseDouble(sprice);
+                                                                                qtye = Double.parseDouble(pp);
+                                                                                product_price.add("" + (pric * qtye));
+                                                                                double val = pric * qtye;
+                                                                                value = String.valueOf(val);
+
+
+                                                                            }
+
+                                                                        }
+
+
+                                                                    }
+
+
+                                                                } else {
+                                                                    product_name1.add(pn);
+                                                                    product_qty.add(pp);
+
+                                                                    dataBase = mHelper.getWritableDatabase();
+                                                                    Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                                    resultSet.moveToFirst();
+                                                                    sprice = resultSet.getString(0);
+                                                                    product_pprice.add(sprice);
+                                                                    pric = Double.parseDouble(sprice);
+                                                                    qtye = Double.parseDouble(pp);
+                                                                    product_price.add("" + (pric * qtye));
+                                                                    double val = pric * qtye;
+                                                                    value = String.valueOf(val);
+
+
+                                                                }
+
+
+                                                                displayData();
+                                                                prduct_name.setSearchText("");
+                                                                product_qtyz.setText("");
+                                                                prduct_name.setTag("");
+
+                                                            } else {
+                                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                                                                alertBuilder.setTitle("Invalid Data");
+                                                                alertBuilder.setMessage("QTY ");
+                                                                alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        dialog.cancel();
+                                                                    }
+                                                                });
+                                                                alertBuilder.show();
+                                                            }
+                                                        } else {
+                                                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+                                                            alertBuilder.setTitle("Invalid Data");
+                                                            alertBuilder.setMessage("Please Enter product Item ");
+                                                            alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.cancel();
+                                                                }
+                                                            });
+                                                            alertBuilder.show();
+                                                        }
+
+
                                                     } else {
                                                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
                                                         alertBuilder.setTitle("Invalid Data");
-                                                        alertBuilder.setMessage("QTY ");
+                                                        alertBuilder.setMessage("Please order minimum one ");
                                                         alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                                                             public void onClick(DialogInterface dialog, int which) {
                                                                 dialog.cancel();
-
                                                             }
                                                         });
                                                         alertBuilder.show();
                                                     }
                                                 } else {
+
                                                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
                                                     alertBuilder.setTitle("Invalid Data");
-                                                    alertBuilder.setMessage("Please Enter product Item ");
+                                                    alertBuilder.setMessage("Please enter All ");
                                                     alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             dialog.cancel();
-
                                                         }
                                                     });
                                                     alertBuilder.show();
                                                 }
                                             }
                                         }
-
             );
 
 
@@ -603,27 +611,20 @@ public class AsciiFragment extends Fragment {
                         do {
                             try {
                                 sendMail();
-                            }catch (IndexOutOfBoundsException e)
-                            {
+                            } catch (IndexOutOfBoundsException e) {
                                 Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
                             }
-
-
 
 
                         }
                         while (c3.moveToNext());
                     } else {
-                        try
-                        {
+                        try {
                             saveData();
                             sendMail();
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
+                        } catch (IndexOutOfBoundsException e) {
                             Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
                         }
-
 
 
                     }
@@ -634,7 +635,6 @@ public class AsciiFragment extends Fragment {
         save.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
 
                 String billno = Billno.getText().toString();
@@ -655,17 +655,12 @@ public class AsciiFragment extends Fragment {
                             }
                         }
                         while (c3.moveToNext());
-                    }
-                else {
-                        try
-                        {
+                    } else {
+                        try {
                             saveData();
-                        }
-                        catch (IndexOutOfBoundsException e)
-                        {
+                        } catch (IndexOutOfBoundsException e) {
                             Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
                         }
-
 
 
                     }
@@ -678,163 +673,110 @@ public class AsciiFragment extends Fragment {
             public void onClick(View v) {
 
 
-
                 String billno = Billno.getText().toString();
 
                 String Query = "SELECT * FROM " + DbHelper.TABLE_NAME2 + " WHERE " + DbHelper.BILL_NO + "=" + billno;
 
                 Cursor c3 = mHelper.fetchdata1(Query);
 
-               /* if (c3 == null) {
-                    Toast.makeText(getActivity(),"hello",Toast.LENGTH_LONG).show();
-
-                }*/
 
                 if (c3 != null) {
                     if (c3.moveToFirst()) {
                         do {
-
                             try {
                                 printstmt();
-
                             } catch (IndexOutOfBoundsException e) {
                                 Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
-
                             }
-
-
                         }
                         while (c3.moveToNext());
                     } else {
                         try {
-
                             saveData();
                             printstmt();
                         } catch (IndexOutOfBoundsException e) {
                             Toast.makeText(getActivity(), "Please enter all details", Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
                 }
             }
 
         });
         return view;
+
+
     }
 
 
     public String formatToPrint(String itms, String qtys, String perprice, String pris) {
-
         char item[] = new char[17];
-
         itms = itms.length() > 15 ? itms.substring(0, 15) + ".." : itms;
-
         char[] titms = itms.toCharArray();
-
         int size = titms.length;
-
-        for (int i = 0; i < item.length; i++)
-
-        {
-
+        for (int i = 0; i < item.length; i++) {
             item[i] = i < size ? titms[i] : ' ';
-
         }
 
         itms = new String(item);
-
-
         char qty[] = new char[5];
-
         qtys = qtys.length() > 5 ? qtys.substring(0, 5) : qtys;
-
         char[] tqtys = qtys.toCharArray();
-
         size = tqtys.length;
-
         int diff = qty.length - tqtys.length;
-
-        for (int i = qty.length - 1; i >= 0; i--)
-
-        {
-
+        for (int i = qty.length - 1; i >= 0; i--) {
             qty[i] = i >= diff ? tqtys[i - diff] : ' ';
-
         }
 
         qtys = new String(qty);
 
-        /////////////////////////////////////////  P E R P R I C E /////////////////////////////////////////////////////////////////
         char qtyp[] = new char[4];
-
         perprice = perprice.length() > 4 ? perprice.substring(0, 4) : perprice;
-
         char[] ptqtys = perprice.toCharArray();
-
         size = ptqtys.length;
-
         diff = qtyp.length - ptqtys.length;
-
-        for (int i = qtyp.length - 1; i >= 0; i--)
-
-        {
-
+        for (int i = qtyp.length - 1; i >= 0; i--) {
             qtyp[i] = i >= diff ? ptqtys[i - diff] : ' ';
-
         }
 
         perprice = new String(qtyp);
 
-
-        /////////////////////////////////////////  P E R P R I C E /////////////////////////////////////////////////////////////////
-
-
         char pri[] = new char[8];
-
         pris = pris.length() > 8 ? pris.substring(0, 8) : pris;
-
         char[] tpris = pris.toCharArray();
-
         size = tpris.length;
-
         diff = pri.length - tpris.length;
-
-        for (int i = pri.length - 1; i >= 0; i--)
-
-        {
-
+        for (int i = pri.length - 1; i >= 0; i--) {
             pri[i] = i >= diff ? tpris[i - diff] : ' ';
-
         }
 
         pris = new String(pri);
-
-
         return (itms + "  " + qtys + "   " + perprice + "  " + pris);
     }
 
 
     private String[] getArray(ArrayList<BluetoothDevice> data) {
         String[] list = new String[0];
-
         if (data == null) return list;
-
         int size = data.size();
         list = new String[size];
-
         for (int i = 0; i < size; i++) {
             list[i] = data.get(i).getName();
         }
-
         return list;
     }
 
-
     private void displayData() {
 
-        Bill_display_adpter disadpt = new Bill_display_adpter(getActivity(), product_name1, product_pprice, product_qty, product_price);
+        Log.e("tag", "My Total Price" + price);
+        Log.e("tag", "My Product Name" + product_name1);
+        Log.e("tag", "My Product Price" + product_pprice);
+        Log.e("tag", "My Product Qty" + product_qty);
+        Log.e("tag", "My Product Total" + product_price);
+
+
+        Bill_display_adpter disadpt = new Bill_display_adpter(getActivity(), pn, pp, product_name1, product_pprice, product_qty, product_price);
         userList.setAdapter(disadpt);
+        disadpt.notifyDataSetChanged();
 
         double price = 0;
         for (String itemprice : product_price) {
@@ -846,19 +788,17 @@ public class AsciiFragment extends Fragment {
         aa = sl_no.size();
         bb = aa;
         toatl.setText("" + price);
-        Log.e("tag", "My Total Price" + price);
-        Log.e("tag", "My Product Name" + product_name1);
-        Log.e("tag", "My Product Price" + product_pprice);
-        Log.e("tag", "My Product Qty" + product_qty);
-        Log.e("tag", "My Product Total" + product_price);
 
 
     }
 
 
     public void saveData() {
+
         g_total = toatl.getText().toString();
         cus_name = editText_cname.getText().toString();
+        Log.e("tag", "ccc" + cus_name);
+
 
         String tab_pos;
         tab_pos = String.valueOf(number);
@@ -888,16 +828,16 @@ public class AsciiFragment extends Fragment {
         for (int i = 0; i < sl_no.size(); i++) {
             String no = sl_no.get(i);
             String p_name = product_name1.get(i);
-            Log.e("tag","A1" +product_name1.get(i));
+            Log.e("tag", "A1" + product_name1.get(i));
 
             String p_price = product_price.get(i);
-            Log.e("tag","A2" +product_price.get(i));
+            Log.e("tag", "A2" + product_price.get(i));
 
             String per_prz = product_pprice.get(i);
-            Log.e("tag","A3" +product_pprice.get(i));
+            Log.e("tag", "A3" + product_pprice.get(i));
 
             String p_qty = product_qty.get(i);
-            Log.e("tag","A4" +product_qty.get(i));
+            Log.e("tag", "A4" + product_qty.get(i));
 
             dbh.insert1(dbh, c_date, join, cus_name, tab_pos, p_name, per_prz, p_qty, p_price);
             //dbh.insert3(dbh, c_date, join, cus_name, tab_pos, g_total);
@@ -931,18 +871,14 @@ public class AsciiFragment extends Fragment {
         dataBase.insert(DbHelper.TABLE_NAME2, null, value);
         dataBase.close();
 
-
-      /*  Intent gomain2 = new Intent(getActivity(), Dashboard.class);
-        startActivity(gomain2);
-*/
-
     }
 
     public void sendMail() {
         storeval = "Mahindra World City" + "\n\t\t\t\t\t\t\tcanopy" + "\n\nHABITAT DETAILS:" + "\n\n\nDate:" + "\t" + c_date + "\nBillNo:\t" + join + "\nItem Name:\t" + product_name1 + "\nItem Price:\t" +
-                product_pprice + "\nQuantity:\t" + product_qty + "\nTotal Amount:\t" + product_price + "\nGrand Total:\t" + prics;
+                product_pprice + "\nQuantity:\t" + product_qty + "\nTotal Amount:\t" + product_price + "\nGrand Total:\t" + currency + prics;
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", "gopinath@sqindia.net", null));
+                "mailto", token_mail, null));
+        Log.e("tag", "mm" + token_mail);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
         emailIntent.putExtra(Intent.EXTRA_TEXT, storeval);
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
@@ -950,16 +886,14 @@ public class AsciiFragment extends Fragment {
 
         exportDB();
 
-       /* Intent gomain1 = new Intent(getActivity(), Dashboard.class);
-        startActivity(gomain1);
-*/
+
     }
 
     public void printstmt() {
 
+        Log.e("tag", "billone" + b1);
+
         cus_name = editText_cname.getText().toString();
-
-
         TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tm.getLine1Number();
         String mDeviceId = tm.getDeviceId();
@@ -967,14 +901,13 @@ public class AsciiFragment extends Fragment {
         Log.e("TAG", "phone number" + mPhoneNumber);
         device_id = mDeviceId;
         Log.e("TAG", "phone id" + mDeviceId);
-        // mBtp.showDeviceList(getActivity());
         mBtp.setPrintFontStyle(BtpCommands.FONT_STYLE_REGULAR);
         mBtp.setPrintFontSize(BtpCommands.FONT_SIZE_NORMAL);
-        mBtp.printTextLine("                  HABITAT");
-        mBtp.printTextLine("          Mahindra World City Canopy");
-        mBtp.printTextLine("FSSAI:12415008001811");
+        mBtp.printTextLine("                  " + b1);
+        mBtp.printTextLine("          " + b2);
+        mBtp.printTextLine("FSSAI:" + b3);
         mBtp.printLineFeed();
-        mBtp.printTextLine("               Welcome :" + cus_name);
+        mBtp.printTextLine("          Welcome : " + cus_name);
         mBtp.printTextLine(currentDateTime + "  BillNo:" + join);
         //mBtp.printTextLine("time:"+time);
         mBtp.printTextLine("------------------------------------------");
@@ -1011,40 +944,31 @@ public class AsciiFragment extends Fragment {
         }
 
         prics = new String(pri);
-        /////////////////
-        mBtp.printTextLine("Total                          " + prics);
+        mBtp.printTextLine("Total:                       " + currency + prics);
         mBtp.printTextLine("------------------------------------------");
-        mBtp.printLineFeed();
         mBtp.printTextLine("    Designed & Developed by SQIndia.net");
-        mBtp.printTextLine("           Contact:91 8526571169");
-        mBtp.printLineFeed();
+        mBtp.printTextLine("           Contact:" + b4);
         mBtp.printTextLine("Bill received from:" + device_id);
         mBtp.printLineFeed();
         mBtp.printTextLine("****************************************");
         mBtp.printLineFeed();
 
+
         userList.setEnabled(false);
-        Toast.makeText(getActivity(), "Printed Successfully..", Toast.LENGTH_LONG).show();
-
-      Intent gomain = new Intent(getActivity(), MainActivity.class);
+        Intent gomain = new Intent(getActivity(), MainActivity.class);
         startActivity(gomain);
-
-
-
 
 
     }
 
+
     private void exportDB() {
         sd1 = new File(Environment.getExternalStorageDirectory() + "/exported/");
         data = Environment.getDataDirectory();
-        //File mydir = new File(Environment.getExternalStorageDirectory() + "/NewsApp/");
-
 
         if (!sd1.exists()) {
             sd1.mkdirs();
         }
-
 
         FileChannel source = null;
         FileChannel destination = null;
@@ -1070,15 +994,7 @@ public class AsciiFragment extends Fragment {
     }
 
 
-
-     /*AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-
-                                LayoutInflater inflater = this.getLayoutInflater();
-                                View dialogView = inflater.inflate(R.layout.alert_label_editor, null);
-                                dialogBuilder.setView(dialogView);
-
-                                EditText editText = (EditText) dialogView.findViewById(R.id.label_field);
-                                editText.setText("NGX Bluetooth Printer");
-                                AlertDialog alertDialog = dialogBuilder.create();
-                                alertDialog.show();*/
 }
+
+
+

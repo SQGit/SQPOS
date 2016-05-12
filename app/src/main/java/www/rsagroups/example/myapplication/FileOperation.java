@@ -26,16 +26,12 @@ public class FileOperation {
 	public static String Folder_images = "images";
 	public static String Folder_text = "text";
 	public static String Folder_icon = "icons";
-	
-	
-	
+
 	public FileOperation(){
-		
 	}
 	
 	public FileOperation(Context ct){
 		this.ct = ct;
-		//makeDir();
 	}
 	
 	

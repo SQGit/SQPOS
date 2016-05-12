@@ -105,7 +105,6 @@ public class DbHelper extends SQLiteOpenHelper {
         sdb.insert(TABLE_NAME1, null, contentValue);
 
 
-
         Log.d("tag", "data updated");
         sdb.close();
     }
@@ -185,70 +184,47 @@ public class DbHelper extends SQLiteOpenHelper {
         catch (Exception e)
         {
             System.out.println("DATABASE ERROR " + e);
+        }
+
+        return c2;
+    }
+
+
+    public Cursor fetchdata4(String qry) {
+        Cursor c2 = null;
+        try{
+            SQLiteDatabase sdb1;
+            sdb1= getReadableDatabase();
+            c2 = sdb1.rawQuery(qry, null);
+            Log.e("tag","<-----cursor---->"+c2);
+        }
+        catch (Exception e)
+        {
+            System.out.println("DATABASE ERROR " + e);
 
         }
 
         return c2;
     }
+
+
+
+
+
     public Cursor me_name(String billno) {
 
-        String qq ="SELECT customername,set_table  FROM bill_history WHERE bno =220426121";//+billno;
+        String qq ="SELECT customername,set_table  FROM bill_history WHERE bno ="+billno;
         Cursor c = null;
         try{
-
-
             SQLiteDatabase sdb;
             sdb= getReadableDatabase();
             c = sdb.rawQuery(qq, null);
-
-
         }
 
         catch (Exception e)
         {
             System.out.println("DATABASE ERROR " + e);
-
         }
-
         return c;
     }
-
-
-
-    //String qq ="SELECT SUM(gtot) FROM bill_history WHERE date ="+date;
-
-
-    public Cursor me_name3(String date) {
-
-        String qq ="SELECT SUM(gtot) FROM bill_history WHERE date  ="+"\"22/04/2016\"";
-        Cursor cc = null;
-        try{
-
-
-            SQLiteDatabase sdb;
-            sdb= getReadableDatabase();
-            cc = sdb.rawQuery(qq, null);
-
-
-
-
-        }
-
-        catch (Exception e)
-        {
-            System.out.println("DATABASE ERROR " + e);
-
-        }
-
-        if (cc != null) {
-            cc.moveToFirst();
-        }
-
-        return cc;
-    }
-
-
-
-
-
 }

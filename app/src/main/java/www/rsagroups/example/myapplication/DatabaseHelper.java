@@ -22,7 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String QUERY1 = " CREATE TABLE " + TABLE1 + "(" + _ID + " INTEGER AUTO INCREMENT,   " + PRODUCTNAME + " TEXT PRIMARY KEY, "+  QTY + " TEXT, " + PRICE + " TEXT);";
 
 
-
     //SQLiteDatabase sdb;
     // DatabaseHelper dbh1;
 
@@ -41,7 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public void insert1(DatabaseHelper db, String product,String qty,String price) {
@@ -50,18 +48,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValue.put(PRODUCTNAME, product);
         contentValue.put(QTY, qty);
         contentValue.put(PRICE, price);
-
-
-
         sdb.insert(TABLE1, null, contentValue);
         Log.d("tag", "data inserted");
         sdb.close();
     }
-
-
-
-
-
 
     public Cursor get2(DatabaseHelper dbh) {
 
@@ -71,14 +61,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-
-
-
-
     public DatabaseHelper opendb() {
-
         // sdb = dbh1.getReadableDatabase();
-
         return this;
     }
 
@@ -92,9 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         catch (Exception e)
         {
             System.out.println("DATABASE ERROR " + e);
-
         }
-
         return c2;
     }
 }

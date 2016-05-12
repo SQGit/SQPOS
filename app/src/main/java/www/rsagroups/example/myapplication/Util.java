@@ -8,20 +8,10 @@ import java.util.Vector;
 
 
 
-/**
- * The class ia a collection of tools for parsing String ,getting card type or
- * dealing with time and date
- * 
- * @author Nelson
- */
+
 public class Util
 {
-	/**
-	 * Returns the current HH:MM
-	 * 
-	 * @param time - time string
-	 * @return format time string
-	 */
+
 	public static String getHHMM(String time)
 	{
 		String finalTime = "00/00 AM/PM";
@@ -61,15 +51,7 @@ public class Util
 		return (finalTime);
 	}
 
-	/**
-	 * This method returns the numeric value in string so that further it can be
-	 * concanated with other value strings like day,hours,min,seconds at the
-	 * time of getting eraseTime at savingTransaction.
-	 * 
-	 * @param month -
-	 *            String values like "Jan","Feb"....etc.
-	 * @return String
-	 */
+
 	private static String[] monthNames =
 	{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
 			"Nov", "Dec" };
@@ -121,13 +103,7 @@ public class Util
 			   return false;
 		   }
 	   }
-	
-	/**
-    * trim the input string's space
-    * 
-    * @param oldString - input string
-    * @return trimmed string
-    */
+
 	public static String trimSpace(String oldString)
 	{
 		if (null == oldString)
@@ -146,14 +122,7 @@ public class Util
 		return returnString;
 	}
 
-	/**
-	 * Convert hex string to byte array
-	 * 
-	 * @param s - input String
-	 * @param offset - start position
-	 * @param len - byte length
-	 * @return byte array
-	 */
+
 	public static byte[] hex2byte(String s, int offset, int len)
 	{
 		byte[] d = new byte[len];

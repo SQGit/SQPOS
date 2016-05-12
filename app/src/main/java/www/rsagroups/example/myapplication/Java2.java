@@ -2,7 +2,9 @@ package www.rsagroups.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ public class Java2 extends BaseAdapter {
     ArrayList<Java1> arrayList;
     TextView t2,t3,t4,t5,t6;
     Button b1;
+    String currency;
 
 
 
@@ -50,6 +53,12 @@ public class Java2 extends BaseAdapter {
 
     @Override
     public View getView(int position, View v2, ViewGroup parent) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c1);
+        currency = sharedPreferences.getString("send2", "");
+
+
+
 
         final Java1 java1 = arrayList.get(position);
 
@@ -81,7 +90,6 @@ public class Java2 extends BaseAdapter {
         t4 = (TextView) v2.findViewById(R.id.textView3);
         t6=(TextView) v2.findViewById(R.id.table);
 
-        b1=(Button)v2.findViewById(R.id.view_icon);
 
         t2.setTypeface(tf);
         t3.setTypeface(tf);
@@ -89,46 +97,26 @@ public class Java2 extends BaseAdapter {
         t5.setTypeface(tf);
         t6.setTypeface(tf);
 
-
-
-  /*      t1.setTypeface(tf, Typeface.NORMAL);
-        t2.setTypeface(tf, Typeface.NORMAL);
-        t3.setTypeface(tf, Typeface.NORMAL);
-        t4.setTypeface(tf, Typeface.NORMAL);
-        t5.setTypeface(tf, Typeface.NORMAL);
-        t6.setTypeface(tf, Typeface.NORMAL);
-        t7.setTypeface(tf, Typeface.NORMAL);*/
-
-
-
         t2.setText(java1.get_DATE());
         t3.setText(java1.get_BILLNO());
         t5.setText(java1.get_CUSTOMERNAME());
         t6.setText(java1.get_TABLE());
-        t4.setText(java1.get_GRANDTOTAL());
+        t4.setText(currency+java1.get_GRANDTOTAL());
 
         String total=t4.getText().toString();
-
         Log.e("tag", "get total_amt" +total);
-
-
 
         v2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String bill = java1._BILLNO;
-
-
                 Intent move = new Intent(c1, BillList.class);
                 move.putExtra("bill", bill);
                 c1.startActivity(move);
                 //Toast.makeText(c1,"Varun(9854752445) Takes responsibility of this person"+bill, Toast.LENGTH_LONG).show();
             }
         });
-
-
-
 
 
         return v2;

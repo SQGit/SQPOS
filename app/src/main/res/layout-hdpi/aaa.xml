@@ -79,14 +79,7 @@
             />
 
 
-        <Button
-                android:id="@+id/view_icon"
-                android:layout_width="80dp"
-                android:layout_height="25dp"
-                android:layout_marginBottom="5dp"
-                android:layout_gravity="left"
-                android:background="@mipmap/view_icon"
-          />
+
 
     </LinearLayout>
 </LinearLayout>

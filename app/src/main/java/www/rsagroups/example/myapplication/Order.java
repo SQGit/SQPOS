@@ -1,166 +1,139 @@
 package www.rsagroups.example.myapplication;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+    import android.app.AlertDialog;
+    import android.content.Context;
+    import android.content.Intent;
+    import android.content.SharedPreferences;
+    import android.database.Cursor;
+    import android.database.sqlite.SQLiteDatabase;
+    import android.graphics.Typeface;
+    import android.os.Bundle;
+    import android.preference.PreferenceManager;
+    import android.support.v7.app.AppCompatActivity;
+    import android.text.SpannableStringBuilder;
+    import android.text.Spanned;
+    import android.util.Log;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.view.WindowManager;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
+    import android.widget.AutoCompleteTextView;
+    import android.widget.BaseAdapter;
+    import android.widget.Button;
+    import android.widget.ListView;
+    import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-/**
- * Created by Admin on 04-03-2016.
- */
-public class Order extends Activity {
-    AutoCompleteTextView at;
-    ListView lv2;
-    Button b1;
-    TextView head,copyright;
-
-    AlertDialog dialog;
-    SQLiteDatabase sqd;
-    ArrayAdapter<String> adapter;
-    String[] products1;
-
-    Cursor cursor,cursor1;
-    String name;
-    ArrayList<HashMap<String,String>> billnos;
-    DbHelper helper;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.trialxml);
-
-        head=(TextView)findViewById(R.id.textView7);
-        at=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
-        b1=(Button)findViewById(R.id.back_icon);
-        copyright=(TextView)findViewById(R.id.textrights);
-        Typeface tf = Typeface.createFromAsset(getAssets(), "appfont.OTF");
-        head.setTypeface(tf);
-        at.setTypeface(tf);
-        copyright.setTypeface(tf);
+    import java.text.DateFormat;
+    import java.util.ArrayList;
+    import java.util.Date;
+    import java.util.HashMap;
 
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(i);
+        public class Order extends AppCompatActivity {
+            AutoCompleteTextView at;
+            ListView lv2;
+            TextView copyright;
+            String ss,token_footer;
+            Typeface tf;
 
-            }
-        });
+            AlertDialog dialog;
+            SQLiteDatabase sqd;
+            ArrayAdapter<String> adapter;
+            String[] products1;
 
-        sqd = openOrCreateDatabase("userdata.db", MODE_PRIVATE, null);
-       // cursor = sqd.rawQuery("SELECT " + helper.BILL_NO +"||"+helper.GRAND_TOTAL+ " FROM " + helper.TABLE_NAME2, null);
-
-
-        cursor = sqd.rawQuery("SELECT * " + " FROM " + helper.TABLE_NAME2, null);
-      //  cursor1 = sqd.rawQuery("SELECT * " + " FROM " + helper.TABLE_NAME1, null);
-
-        final String[] products = new String[cursor.getCount()];
-        products1 = new String[cursor.getCount()];
-        //String[] products1 = new String[];
-        Log.e("products",":%%%%%%%%%%%Arraylist"+products.toString());
-        billnos = new ArrayList<HashMap<String, String>>();
-        for(int i=0;i<products.length;i++)
-        {
-            HashMap<String,String> map = new HashMap<String, String>();
-            map.put("Billno",products[i]);
-            billnos.add(map);
-        }
-        Log.e("Billno",":%%%%%%%%%%%Arraylist"+billnos.toString());
-        at = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        lv2 = (ListView) findViewById(R.id.list);
-        lv2.setAdapter(new MyAdapter(getApplicationContext(), billnos));
-
-        int i = 0;
-
-        while (cursor.moveToNext()) {
-            String cnum = cursor
-                    .getString(cursor.getColumnIndex("bno"));
-
-            String cnum2 = cursor
-                    .getString(cursor.getColumnIndex("customername"));
-
-            String cnum3 = cursor.getString(cursor.getColumnIndex("set_table"));
-
-            String gettottt="TABLE"+cnum3+"-"+cnum2+"-"+cnum;
-
-                products[i] = cnum;
-                products1[i] = gettottt;
-
-
-                //name = cursor.getString(cursor.getColumnIndex("email"));
-                //namss[i] = nami;
-                i++;
-            }
-            cursor.close();
-
-
-
-            adapter = new ArrayAdapter<String>(this, R.layout.list_single, R.id.product_name, products1);
-            //lv.setAdapter(adapter);
-
-            at.setAdapter(adapter);
-
-            at.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                // String ROLL,NAME,AGE,ADDR;
+            Cursor cursor;
+            String name;
+            ArrayList<HashMap<String,String>> billnos;
+            DbHelper helper;
 
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                int position, long id) {
+                protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.order_activity);
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+                FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), "appfont.OTF");
+                fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                ss = currentDateTimeString;
+                Log.e("TAg", "sssss" + ss);
+                tf = Typeface.createFromAsset(getAssets(), "appfont.OTF");
+                SpannableStringBuilder SS = new SpannableStringBuilder("BILLING");
+                SS.setSpan(new CustomTypefaceSpan("BILLING", tf), 0, SS.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                getSupportActionBar().setTitle(SS);
+
+                at=(AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
+                copyright=(TextView)findViewById(R.id.textrights);
+                Typeface tf = Typeface.createFromAsset(getAssets(), "appfont.OTF");
+                at.setTypeface(tf);
+                copyright.setTypeface(tf);
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Order.this);
+                token_footer = sharedPreferences.getString("footer", "");
+                Log.e("tag", "getvalue" + token_footer);
+                copyright.setText(token_footer);
 
 
-                    String sr = products1[position];
-                    // Log.e("tag","**********"+sr);
-                    Log.e("tag","position val"+sr);
-                    Intent intent = new Intent(getApplicationContext(), AddItemBill.class);
-                    // intent.putExtra("val",sr);
-                    intent.putExtra("idd",products[position]);
-                    startActivity(intent);
+                sqd = openOrCreateDatabase("userdata.db", MODE_PRIVATE, null);
+                cursor = sqd.rawQuery("SELECT * " + " FROM " + helper.TABLE_NAME2+ " ORDER BY "+ helper.KEY_ID+ " DESC", null);
 
 
+                final String[] products = new String[cursor.getCount()];
+                products1 = new String[cursor.getCount()];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                Log.e("products",":%%%%%%%%%%%Arraylist"+products.toString());
+                billnos = new ArrayList<HashMap<String, String>>();
+                for(int i=0;i<products.length;i++)
+                {
+                    HashMap<String,String> map = new HashMap<String, String>();
+                    map.put("Billno",products[i]);
+                    billnos.add(map);
                 }
+                Log.e("Billno",":%%%%%%%%%%%Arraylist"+billnos.toString());
+                at = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+                lv2 = (ListView) findViewById(R.id.list);
+                lv2.setAdapter(new MyAdapter(getApplicationContext(), billnos));
+
+                int i = 0;
+
+                while (cursor.moveToNext()) {
+                    String cnum = cursor
+                            .getString(cursor.getColumnIndex("bno"));
+
+                    String cnum2 = cursor
+                            .getString(cursor.getColumnIndex("customername"));
+
+                    String cnum3 = cursor.getString(cursor.getColumnIndex("set_table"));
+
+                    String gettottt="TABLE"+cnum3+"-"+cnum2+"-"+cnum;
+
+                    products[i] = cnum;
+                    products1[i] = gettottt;
+                    i++;
+                }
+                cursor.close();
+
+
+
+        adapter = new ArrayAdapter<String>(this, R.layout.list_single, R.id.product_name, products1);
+        at.setAdapter(adapter);
+
+        at.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // String ROLL,NAME,AGE,ADDR;
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                String sr = products1[position];
+                Log.e("tag","position val"+sr);
+                Intent intent = new Intent(getApplicationContext(), AddItemBill.class);
+                intent.putExtra("idd",products[position]);
+                startActivity(intent);
+            }
         });
-
-
-
     }
 
 

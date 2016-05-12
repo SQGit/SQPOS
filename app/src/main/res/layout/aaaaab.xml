@@ -84,8 +84,7 @@
             android:textSize="17dp"
             android:layout_marginTop="0dp"
             android:gravity="left|center"
-            android:text="TOTAL" />
-
+            android:text="TOTAL"/>
 
     </LinearLayout>
 </LinearLayout>

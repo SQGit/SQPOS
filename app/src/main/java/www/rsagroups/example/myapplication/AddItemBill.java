@@ -14,11 +14,18 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,40 +45,36 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-
-
-
-
-public class AddItemBill extends Activity {
+public class AddItemBill extends AppCompatActivity {
     SQLiteDatabase sqd;
     DbHelper helper;
-    String  g_total;
+    String g_total;
     ArrayList<HashMap<String, String>> orderList = new ArrayList<HashMap<String, String>>();
     HashMap<String, String> map = new HashMap<String, String>();
     private AlertDialog.Builder build;
-    Button add_item, mail, print, dot, back;
+    Button add_item, mail, print;
     FloatingSearchView prduct_name;
     String O_old_Query, O_new_Query;
     EditText product_qtyz;
-    TextView Total_amount, head;
+    TextView Total_amount;
     TextView Billno, bill_txt;
     TextView toatl, bottom;
     TextView sno, in, ip, qt, am, or1, or2;
-    String join, date, storeval,name_cus,table_cus;;
+    String join, date, storeval, name_cus, table_cus,token_footer,currency,token_mail;
     ProgressDialog dialog;
     Double pric, qtye;
-    String  sprice, value, prics, device_num, device_id, time;
+    String sprice, value, prics, device_num, device_id, time;
     String a, b, c;
-    String gettot;
+    String gettot, ss;
+    Typeface tf;
+    String b1,b2,b3,b4,b5;
 
     int aa, bb;
     Context context = this;
     String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
 
-
-
-    String val,id,name_customer;
-    String me_name,me_table;
+    String val, id, name_customer;
+    String me_name, me_table;
 
     private ArrayList<String> sl_no = new ArrayList<String>();
     private ArrayList<String> product_name1 = new ArrayList<String>();
@@ -84,7 +87,7 @@ public class AddItemBill extends Activity {
     public static String pn, pp, price;
 
     private BluetoothPrinter mBtp = BluetoothPrinterMain.mBtp;
-    SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sd = new SimpleDateFormat("dd/M/yyyy");
     final String c_date = sd.format(new Date());
 
 
@@ -101,7 +104,6 @@ public class AddItemBill extends Activity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_clear_device:
-                // deletes the last used printer, will avoid auto conne
 
 
                 AlertDialog.Builder d = new AlertDialog.Builder(this);
@@ -125,14 +127,14 @@ public class AddItemBill extends Activity {
                         });
                 d.show();
                 return true;
+
             case R.id.action_connect_device:
-                // show a dialog to select from the list of available printers
                 mBtp.showDeviceList(this);
                 return true;
+
             case R.id.action_unpair_device:
                 AlertDialog.Builder u = new AlertDialog.Builder(this);
                 u.setTitle("Bluetooth Printer unpair");
-                // d.setIcon(R.drawable.ic_launcher);
                 u.setMessage("Are you sure you want to unpair all Bluetooth printers ?");
                 u.setPositiveButton(android.R.string.yes,
                         new DialogInterface.OnClickListener() {
@@ -163,22 +165,35 @@ public class AddItemBill extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.additem_bill);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddItemBill.this);
-        name_customer = sharedPreferences.getString("username", "");
-        Log.e("tag" ,"name"+name_customer);
+
+
+
+        FontChangeCrawler fontChanger = new FontChangeCrawler(getAssets(), "appfont.OTF");
+        fontChanger.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        ss = currentDateTimeString;
+        Log.e("TAg", "sssss" + ss);
+
+        tf = Typeface.createFromAsset(getAssets(), "appfont.OTF");
+        SpannableStringBuilder SS = new SpannableStringBuilder("BILLING");
+        SS.setSpan(new CustomTypefaceSpan("BILLING", tf), 0, SS.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        getSupportActionBar().setTitle(SS);
+
+
+
 
 
 
         Intent i = getIntent();
         val = i.getStringExtra("idd");
-        id= i.getStringExtra("idd");
-        Log.e("tag", "12345"  +id );
+        id = i.getStringExtra("idd");
+        Log.e("tag", "12345" + id);
         Log.e("tag", "%%%%%%%%%%%%%%%%" + val);
 
 
-
-        head = (TextView) findViewById(R.id.textView7);
         add_item = (Button) findViewById(R.id.add_bill);
         mail = (Button) findViewById(R.id.sendmail);
         print = (Button) findViewById(R.id.print);
@@ -189,19 +204,18 @@ public class AddItemBill extends Activity {
         ip = (TextView) findViewById(R.id.txt_pprz);
         qt = (TextView) findViewById(R.id.txt_lName);
         am = (TextView) findViewById(R.id.txt_price);
-        or1 = (TextView) findViewById(R.id.textView);
-        or2 = (TextView) findViewById(R.id.textView2);
+       /* or1 = (TextView) findViewById(R.id.textView);
+        or2 = (TextView) findViewById(R.id.textView2);*/
         userList = (ListView) findViewById(R.id.Bill_list);
         Total_amount = (TextView) findViewById(R.id.toatlamt);
         toatl = (TextView) findViewById(R.id.grand_tot);
         prduct_name = (FloatingSearchView) findViewById(R.id.product_name);
         product_qtyz = (EditText) findViewById(R.id.product_qty);
-        dot = (Button) findViewById(R.id.dot_icon);
 
 
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "appfont.OTF");
 
-        head.setTypeface(tf);
+
         add_item.setTypeface(tf);
         Billno.setTypeface(tf);
         bill_txt.setTypeface(tf);
@@ -219,161 +233,66 @@ public class AddItemBill extends Activity {
 
 
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddItemBill.this);
+        name_customer = sharedPreferences.getString("username", "");
+        Log.e("tag", "name" + name_customer);
+        token_footer = sharedPreferences.getString("footer", "");
+        Log.e("tag", "getvalue" + token_footer);
+        bottom.setText(token_footer);
+        currency = sharedPreferences.getString("send2", "");
+        token_mail = sharedPreferences.getString("mail", "");
+
+        b1 = sharedPreferences.getString("s1", "");
+        b2 = sharedPreferences.getString("s2", "");
+        b3 = sharedPreferences.getString("s3", "");
+        b4 = sharedPreferences.getString("s4", "");
+
         getList();
 
 
-        back = (Button) findViewById(R.id.back_icon);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent back = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(back);
-            }
-        });
 
-
-        dot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                PopupMenu popup = new PopupMenu(getApplicationContext(), dot);
-
-
-
-
-
-
-
-
-
-                popup.getMenuInflater().inflate(R.menu.opt_menu, popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-
-                        switch (item.getItemId()) {
-                            case R.id.item1:
-
-                                AlertDialog.Builder d = new AlertDialog.Builder(AddItemBill.this);
-                                d.setTitle("NGX Bluetooth Printer");
-
-                                d.setMessage("Are you sure you want to delete your preferred Bluetooth printer ?");
-                                d.setPositiveButton(android.R.string.yes,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                mBtp.clearPreferredPrinter();
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Preferred Bluetooth printer cleared",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                d.setNegativeButton(android.R.string.no,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                            }
-                                        });
-                                d.show();
-
-                                return true;
-                            case R.id.item2:
-
-
-                                mBtp.showDeviceList(AddItemBill.this);
-
-                                return true;
-                            case R.id.item3:
-
-                                AlertDialog.Builder u = new AlertDialog.Builder(AddItemBill.this);
-                                u.setTitle("Bluetooth Printer unpair");
-                                // d.setIcon(R.drawable.ic_launcher);
-                                u.setMessage("Are you sure you want to unpair all Bluetooth printers ?");
-                                u.setPositiveButton(android.R.string.yes,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                mBtp.unPairBluetoothPrinters();
-                                                Toast.makeText(getApplicationContext(),
-                                                        "Preferred Bluetooth printer cleared",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-
-                                        });
-                                u.setNegativeButton(android.R.string.no,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-
-                                            }
-                                        });
-                                u.show();
-
-
-                                return true;
-
-                            default:
-                                return true;
-                        }
-
-                    }
-                });
-
-                popup.show();
-            }
-        });
 
 
         print.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
-            Log.e("tag", "helo three");
 
                 Cursor c1 = helper.me_name(val);
 
-            Log.e("tag", "helo four");
 
-                if(c1 != null) {
-                if (c1.moveToFirst()) {
-                do {
-
-
-                me_name=c1.getString(c1.getColumnIndex(helper.CUSTOMER_NAME));
-                    me_table=c1.getString(c1.getColumnIndex(helper.SET_TABLE));
+                if (c1 != null) {
+                    if (c1.moveToFirst()) {
+                        do {
 
 
-
-                    Log.e("tag", "<---lv11---->" + me_name);
-                    Log.e("tag", "<---lv12---->" + me_table);
-
-                }
-                while (c1.moveToNext());
+                            me_name = c1.getString(c1.getColumnIndex(helper.CUSTOMER_NAME));
+                            Log.e("tag", "<---%%%%%1---->" + me_name);
+                            me_table = c1.getString(c1.getColumnIndex(helper.SET_TABLE));
+                            Log.e("tag", "<---%%%%%2---->" + me_table);
 
 
-                }
+                        }
+                        while (c1.moveToNext());
+
+
+                    }
 
                 }
-
-
-
-
-
-
-
                 printstmt();
 
                 updateData();
 
 
-                }
-                });
-
+            }
+        });
 
 
         mail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMail();
-                Toast.makeText(getApplicationContext(),"Mail Sent",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Mail Sent", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -409,40 +328,6 @@ public class AddItemBill extends Activity {
             }
         });
 
-        userList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-
-                                        {
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                                                build = new AlertDialog.Builder(AddItemBill.this);
-                                                build.setTitle("Delete " + product_name1.get(position) + " "
-                                                        + product_price.get(position));
-                                                build.setMessage("Do you want to delete ?");
-                                                build.setPositiveButton("Yes",
-                                                        new DialogInterface.OnClickListener() {
-
-                                                            public void onClick(DialogInterface dialog,
-                                                                                int which) {
-                                                                sl_no.remove(sl_no.size() - 1);
-                                                                product_name1.remove(position);
-                                                                product_price.remove(position);
-                                                                product_qty.remove(position);
-                                                                displayData();
-                                                            }
-                                                        });
-                                                build.setNegativeButton("No",
-                                                        new DialogInterface.OnClickListener() {
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                dialog.cancel();
-                                                            }
-                                                        });
-                                                AlertDialog alert = build.create();
-                                                alert.show();
-                                            }
-                                        }
-
-        );
 
         prduct_name.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
@@ -463,27 +348,132 @@ public class AddItemBill extends Activity {
         add_item.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
+                                            if (v != null)
+                                            {
+                                                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                                            }
+                                            String editTextString = product_qtyz.getText().toString();
+                                            Log.e("tag","product name"+editTextString);
+
 
 
                                             pn = prduct_name.getTag().toString();
 
                                             pp = product_qtyz.getText().toString();
 
-
+                                            if (!(editTextString.equals("0"))) {
                                             if (!pn.equals("")) {
-
-
                                                 if (!pp.equals("")) {
 
                                                     sl_no.add("" + (sl_no.size() + 1));
-                                                    product_name1.add(pn);
+
+
+
+                                                    if (product_name1.size() == 0) {
+                                                        product_name1.add(pn);
+                                                        product_qty.add(pp);
+
+                                                        dataBase = mHelper.getWritableDatabase();
+                                                        Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                        resultSet.moveToFirst();
+                                                        sprice = resultSet.getString(0);
+                                                        product_pprice.add(sprice);
+                                                        pric = Double.parseDouble(sprice);
+                                                        qtye = Double.parseDouble(pp);
+                                                        product_price.add("" + (pric * qtye));
+                                                        double val = pric * qtye;
+                                                        value = String.valueOf(val);
+
+                                                    }
+
+                                                    else if (product_name1.size() > 0) {
+
+
+                                                        for (int i = 0; i < product_name1.size(); i++) {
+                                                            if (pn.matches(product_name1.get(i))) {
+
+                                                                product_qty.set(i, pp);
+                                                                product_name1.set(i, pn);
+
+                                                                dataBase = mHelper.getWritableDatabase();
+                                                                Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                                resultSet.moveToFirst();
+                                                                sprice = resultSet.getString(0);
+                                                                product_pprice.set(i,sprice);
+                                                                pric = Double.parseDouble(sprice);
+                                                                qtye = Double.parseDouble(pp);
+                                                                product_price.set(i,"" + (pric * qtye));
+                                                                double val = pric * qtye;
+                                                                value = String.valueOf(val);
+
+                                                            } else {
+
+                                                                if (!product_name1.contains(pn)) {
+                                                                    product_name1.add(pn);
+                                                                    product_qty.add(pp);
+
+                                                                    dataBase = mHelper.getWritableDatabase();
+                                                                    Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                                    resultSet.moveToFirst();
+                                                                    sprice = resultSet.getString(0);
+                                                                    product_pprice.add(sprice);
+                                                                    pric = Double.parseDouble(sprice);
+                                                                    qtye = Double.parseDouble(pp);
+                                                                    product_price.add("" + (pric * qtye));
+                                                                    double val = pric * qtye;
+                                                                    value = String.valueOf(val);
+
+
+                                                                }
+
+                                                            }
+
+
+                                                        }
+
+
+                                                    } else {
+                                                        product_name1.add(pn);
+                                                        product_qty.add(pp);
+
+                                                        dataBase = mHelper.getWritableDatabase();
+                                                        Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
+                                                        resultSet.moveToFirst();
+                                                        sprice = resultSet.getString(0);
+                                                        product_pprice.add(sprice);
+                                                        pric = Double.parseDouble(sprice);
+                                                        qtye = Double.parseDouble(pp);
+                                                        product_price.add("" + (pric * qtye));
+                                                        double val = pric * qtye;
+                                                        value = String.valueOf(val);
+
+
+                                                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    /*product_name1.add(pn);
                                                     product_qty.add(pp);
                                                     dataBase = mHelper.getWritableDatabase();
                                                     Cursor resultSet = dataBase.rawQuery("Select lname from user where fname='" + pn + "'", null);
                                                     resultSet.moveToFirst();
                                                     sprice = resultSet.getString(0);
                                                     product_pprice.add(sprice);
-                                                    Log.e("tag", "product name "+product_name1);
+                                                    Log.e("tag", "product name " + product_name1);
                                                     Log.e("TAG_RESPONSE", "per price" + sprice);
                                                     pric = Double.parseDouble(sprice);
                                                     qtye = Double.parseDouble(pp);
@@ -492,11 +482,13 @@ public class AddItemBill extends Activity {
                                                     double val = pric * qtye;
                                                     value = String.valueOf(val);
                                                     Log.e("TAG_RESPONSE", "3333333333333" + product_price);
-                                                    displayData();
+                                                    */
 
+                                                    displayData();
                                                     prduct_name.setSearchText("");
                                                     product_qtyz.setText("");
                                                     prduct_name.setTag("");
+
                                                 } else {
                                                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddItemBill.this);
                                                     alertBuilder.setTitle("Invalid Data");
@@ -523,8 +515,24 @@ public class AddItemBill extends Activity {
                                                 });
                                                 alertBuilder.show();
                                             }
+
+
+                                            } else {
+                                                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddItemBill.this);
+                                                alertBuilder.setTitle("Invalid Data");
+                                                alertBuilder.setMessage("Please order minimum one ");
+                                                alertBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+
+                                                    }
+                                                });
+                                                alertBuilder.show();
+                                            }
                                         }
-                                    }
+    }
+
 
         );
 
@@ -535,9 +543,7 @@ public class AddItemBill extends Activity {
     private void displayData() {
 
 
-
-
-        Bill_display_adpter disadpt = new Bill_display_adpter(getApplicationContext(),product_name1, product_pprice, product_qty, product_price);
+        Bill_display_adpter disadpt = new Bill_display_adpter(getApplicationContext(),"aa","bb",product_name1, product_pprice, product_qty, product_price);
 
 
         userList.setAdapter(disadpt);
@@ -551,7 +557,7 @@ public class AddItemBill extends Activity {
 
         aa = sl_no.size();
         bb = aa;
-        toatl.setText("" + price);
+        toatl.setText(currency + price);
         Log.e("tag", "My Total Price" + price);
         Log.e("tag", "My Product Name" + product_name1);
         Log.e("tag", "My Product Price" + product_pprice);
@@ -559,18 +565,7 @@ public class AddItemBill extends Activity {
         Log.e("tag", "My Product Total" + product_price);
 
 
-
-
-
     }
-
-
-
-
-
-
-
-
 
 
     public void getList() {
@@ -578,7 +573,6 @@ public class AddItemBill extends Activity {
         String QRY3 = "SELECT * FROM bill Where bno= " + val;
 
         Log.e("TAG", "good");
-
 
 
         ArrayList<Java11> lv2 = new ArrayList<Java11>();
@@ -596,20 +590,16 @@ public class AddItemBill extends Activity {
 
 
                     jvv.set_ITEMNAME1(c2.getString(c2.getColumnIndex(helper.KEY_FNAME)));
-                   // Log.e("Tag", "Item...Name" + jvv.get_ITEMNAME1());
+                    // Log.e("Tag", "Item...Name" + jvv.get_ITEMNAME1());
 
                     jvv.set_ITEMPRICE1(c2.getString(c2.getColumnIndex(helper.KEY_LNAME)));
-                   // Log.e("Tag", "Item...Price" + jvv.get__ITEMPRICE1());
+                    // Log.e("Tag", "Item...Price" + jvv.get__ITEMPRICE1());
 
                     jvv.set_QTY1(c2.getString(c2.getColumnIndex(helper.QTY)));
-                   // Log.e("Tag", "Item_Qty" + jvv.get__QTY1());
+                    // Log.e("Tag", "Item_Qty" + jvv.get__QTY1());
 
 
-                   jvv.set_TOTAL1(c2.getString(c2.getColumnIndex(helper.TOTAL)));
-
-
-
-
+                    jvv.set_TOTAL1(c2.getString(c2.getColumnIndex(helper.TOTAL)));
 
 
                     this.product_name1.add(jvv.get_ITEMNAME1());
@@ -618,15 +608,10 @@ public class AddItemBill extends Activity {
                     this.product_price.add(jvv.get_TOTAL1());
 
 
-
-
-                    Bill_display_adpter disadpt = new Bill_display_adpter(getApplicationContext() ,product_name1, product_pprice, product_qty, product_price);
-                    Log.e("tag","$$$$$$$");
+                    Bill_display_adpter disadpt = new Bill_display_adpter(getApplicationContext(),"aa","bb", product_name1, product_pprice, product_qty, product_price);
+                    Log.e("tag", "$$$$$$$");
 
                     userList.setAdapter(disadpt);
-
-
-
 
 
                     lv2.add(jvv);
@@ -634,11 +619,16 @@ public class AddItemBill extends Activity {
                 while (c2.moveToNext());
 
 
+
+                Log.e("tag", "My Total Price" + price);
+                Log.e("tag", "My Product Name" + product_name1);
+                Log.e("tag", "My Product Price" + product_pprice);
+                Log.e("tag", "My Product Qty" + product_qty);
+                Log.e("tag", "My Product Total" + product_price);
+
+
             }
         }
-
-
-
 
 
         double price = 0;
@@ -647,15 +637,12 @@ public class AddItemBill extends Activity {
         }
         prics = String.valueOf(price);
 
-        toatl.setText("" + price);
-        Log.e("tag","my total  "+price);
+        toatl.setText(""+currency + price);
+        Log.e("tag", "my total  " + price);
 
 
-
-
-        for (int i = 0; i < product_name1.size(); i++)
-        {
-            Log.e("tag","%%"+product_name1.get(i));
+        for (int i = 0; i < product_name1.size(); i++) {
+            Log.e("tag", "%%" + product_name1.get(i));
             //Log.e("tag","******"+sl_no.get(i));
         }
 
@@ -675,205 +662,127 @@ public class AddItemBill extends Activity {
         for (int i = 0; i < item.length; i++)
 
         {
-
             item[i] = i < size ? titms[i] : ' ';
-
         }
 
         itms = new String(item);
 
 
         char qty[] = new char[5];
-
         qtys = qtys.length() > 5 ? qtys.substring(0, 5) : qtys;
-
         char[] tqtys = qtys.toCharArray();
-
         size = tqtys.length;
-
         int diff = qty.length - tqtys.length;
-
         for (int i = qty.length - 1; i >= 0; i--)
-
         {
-
             qty[i] = i >= diff ? tqtys[i - diff] : ' ';
-
         }
-
         qtys = new String(qty);
 
-        /////////////////////////////////////////  P E R P R I C E /////////////////////////////////////////////////////////////////
         char qtyp[] = new char[4];
-
         perprice = perprice.length() > 4 ? perprice.substring(0, 4) : perprice;
-
         char[] ptqtys = perprice.toCharArray();
-
         size = ptqtys.length;
-
         diff = qtyp.length - ptqtys.length;
-
         for (int i = qtyp.length - 1; i >= 0; i--)
 
         {
-
             qtyp[i] = i >= diff ? ptqtys[i - diff] : ' ';
-
         }
-
         perprice = new String(qtyp);
 
 
-        /////////////////////////////////////////  P E R P R I C E /////////////////////////////////////////////////////////////////
-
 
         char pri[] = new char[8];
-
         pris = pris.length() > 8 ? pris.substring(0, 8) : pris;
-
         char[] tpris = pris.toCharArray();
-
         size = tpris.length;
-
         diff = pri.length - tpris.length;
 
         for (int i = pri.length - 1; i >= 0; i--)
 
         {
-
             pri[i] = i >= diff ? tpris[i - diff] : ' ';
-
         }
 
         pris = new String(pri);
-
-
         return (itms + "  " + qtys + "   " + perprice + "  " + pris);
     }
 
 
-    public void printstmt()
-    {
+    public void printstmt() {
 
-
-        Log.e("tag","&*^"+gettot);
-        Toast.makeText(getApplicationContext(),"Printing..",Toast.LENGTH_LONG).show();
         TelephonyManager tm = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         String mPhoneNumber = tm.getLine1Number();
         String mDeviceId = tm.getDeviceId();
         device_num = mPhoneNumber;
-        Log.e("TAG", "phone number" + mPhoneNumber);
         device_id = mDeviceId;
-        Log.e("TAG", "phone id" + mDeviceId);
 
         mBtp.setPrintFontStyle(BtpCommands.FONT_STYLE_REGULAR);
         mBtp.setPrintFontSize(BtpCommands.FONT_SIZE_NORMAL);
-        mBtp.printTextLine("                  HABITAT");
-        mBtp.printTextLine("          Mahindra World City Canopy");
-        mBtp.printTextLine("FSSAI:12415008001811");
+        mBtp.printTextLine("                  "+b1);
+        mBtp.printTextLine("          "+b2);
+        mBtp.printTextLine("FSSAI:"+b3);
         mBtp.printLineFeed();
-        mBtp.printTextLine("              Welcome :" + me_name);
+        mBtp.printTextLine("          Welcome : "+me_name);
         mBtp.printTextLine(currentDateTime + "  BillNo:" + val);
+        mBtp.printTextLine("------------------------------------------");
+        mBtp.printTextLine(" Item              Qty  Price   Amount");
+        mBtp.printTextLine("------------------------------------------");
 
-        mBtp.printTextLine("------------------------------------------");
-        mBtp.printTextLine(" Item                Qty   Price   Amount");
-        mBtp.printTextLine("------------------------------------------");
         for (int i = 0; i < product_name1.size(); i++) {
-
-
             mBtp.printTextLine(formatToPrint(product_name1.get(i), product_qty.get(i), product_pprice.get(i), product_price.get(i)));
             mBtp.printTextLine("");
             Log.d("tag", "product price ===>" + product_pprice);
         }
-
-
         mBtp.printLineFeed();
         mBtp.printTextLine("------------------------------------------");
         /////////////////
         char pri[] = new char[10];
 
-
         prics = prics.length() > 10 ? prics.substring(0, 10) : prics;
-
         char[] tpris = prics.toCharArray();
-
         int size = tpris.length;
-
         int diff = pri.length - tpris.length;
-
         for (int i = pri.length - 1; i >= 0; i--)
-
         {
-
             pri[i] = i >= diff ? tpris[i - diff] : ' ';
-
         }
 
         prics = new String(pri);
 
-        mBtp.printTextLine("Total                         " + prics);
-        Log.e("tag","total price"+prics);
+        mBtp.printTextLine("Total:                      "+currency+prics);
+        Log.e("tag", "total price" + prics);
         mBtp.printTextLine("------------------------------------------");
-        mBtp.printLineFeed();
         mBtp.printTextLine("    Designed & Developed by SQIndia.net");
-        mBtp.printTextLine("           Contact:91 8526571169");
+        mBtp.printTextLine("           Contact:"+b4);
         mBtp.printLineFeed();
         mBtp.printTextLine("Bill received from:" + device_id);
         mBtp.printLineFeed();
         mBtp.printTextLine("****************************************");
-        mBtp.printLineFeed();
-
 
     }
-
-
-
-
 
 
     public void updateData() {
         g_total = toatl.getText().toString();
         dataBase = mHelper.getWritableDatabase();
-
-
         dataBase = mHelper.getWritableDatabase();
-
-
-
-        Log.d("tag", product_price.get(0));
-        Log.d("tag", product_qty.get(0));
-        Log.d("tag", product_pprice.get(0));
         ArrayList<HashMap<String, String>> orderList = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> map = new HashMap<String, String>();
-
 
         DbHelper dbh = new DbHelper(getApplicationContext());
 
         dbh.delete_item1(dbh, val);
         dbh.delete_item2(dbh, val);
 
-
-
-
-
         for (int i = 0; i < product_name1.size(); i++) {
-            String no = product_name1.get(i);
 
             String p_name = product_name1.get(i);
-            Log.e("tag","A1 " +product_name1.get(i));
-
             String p_price = product_price.get(i);
-            Log.e("tag","A2 " +product_price.get(i));
-
             String per_prz = product_pprice.get(i);
-            Log.e("tag","A3 " +product_pprice.get(i));
-
             String p_qty = product_qty.get(i);
-            Log.e("tag","A4 " +product_qty.get(i));
 
-           // dbh.insert1(dbh, c_date, join, "cus_name", "tab_pos", p_name, per_prz, p_qty, p_price);
-            //dbh.insert3(dbh, c_date, join, cus_name, tab_pos, g_total);
 
             ContentValues value = new ContentValues();
             value.put(DbHelper.DATE, c_date);
@@ -884,9 +793,7 @@ public class AddItemBill extends Activity {
             value.put(DbHelper.KEY_LNAME, per_prz);
             value.put(DbHelper.QTY, p_qty);
             value.put(DbHelper.TOTAL, p_price);
-
             dataBase.insert(DbHelper.TABLE_NAME1, null, value);
-
         }
 
 
@@ -896,104 +803,19 @@ public class AddItemBill extends Activity {
         value.put(DbHelper.CUSTOMER_NAME, me_name);
         value.put(DbHelper.SET_TABLE, me_table);
         value.put(DbHelper.GRAND_TOTAL, g_total);
-
-
         dataBase.insert(DbHelper.TABLE_NAME2, null, value);
-      //  dataBase.close();
-
-
-
 
     }
 
 
-    public void saveData()
-    {
-
-        gettot=toatl.getText().toString();
-        dataBase = mHelper.getWritableDatabase();
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddItemBill.this);
-
-        name_cus = sharedPreferences.getString("username", "");
-        table_cus = sharedPreferences.getString("password", "");
-
-
-
-
-
-        DbHelper dbh = new DbHelper(getApplicationContext());
-
-            //dbh.update1(dbh,val,gettot);
-
-
-        for(int i=0; i<product_name1.size();i++)
-        {
-
-            //String no = sl_no.get(i);
-            String itemname = product_name1.get(i);
-            Log.e("tag_qqqq", product_name1.get(i));
-            String itemprz = product_price.get(i);
-            String per_prz = product_pprice.get(i);
-            String p_qty = product_qty.get(i);
-            Log.e("tag", "+++tot+++prz" + per_prz);
-            Log.e("tag", "date" + c_date);
-
-
-            //dbh.delete_item(dbh);
-
-
-
-            //dbh.del_p(dbh, id);
-
-            dbh.update2(dbh, c_date, id, name_cus, table_cus,itemname, itemprz, p_qty, per_prz);
-            //saveData2();
-
-           // dataBase.insert(DbHelper.TABLE_NAME2, null, value);
-
-        }
-
-            /*map.put("No", no);
-            map.put("P_Name", p_name);
-            map.put("P_Price", p_price);
-            map.put("P_Qty", p_qty);
-            orderList.add(map);*/
-
-
-        }
-
-       /* ContentValues value = new ContentValues();
-        value.put(DbHelper.DATE, c_date);
-        value.put(DbHelper.BILL_NO, join);
-        value.put(DbHelper.GRAND_TOTAL, prics);
-        Log.e("RANDOM_VALUE", "totalvalue" + join);
-        dataBase.insert(DbHelper.TABLE_NAME2, null, value);
-        dataBase.close();
-    }*/
-
-
-
-
-    public void sendMail()
-    {
+    public void sendMail() {
         storeval = "Mahindra World City" + "\n\t\t\t\t\t\t\tcanopy" + "\n\nHABITAT DETAILS:" + "\n\n\nDate:" + "\t" + c_date + "\nBillNo:\t" + join + "\nItem Name:\t" + product_name1 + "\nItem Price:\t" +
                 product_pprice + "\nQuantity:\t" + product_qty + "\nTotal Amount:\t" + product_price + "\nGrand Total:\t" + prics;
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", "gopinath@sqindia.net", null));
+                "mailto", token_mail, null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
         emailIntent.putExtra(Intent.EXTRA_TEXT, storeval);
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
 
     }
-
-
-
-
-
-
-
-
-
-
-
 }

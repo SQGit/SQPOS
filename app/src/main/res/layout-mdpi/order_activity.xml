@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@mipmap/background"
+    android:orientation="vertical">
+
+
+
+    <ScrollView
+        android:id="@+id/bottomvalue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/listViewshow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:background="#D9794b2e"
+                    android:drawablePadding="10dp"
+                    android:maxLength="10"
+                    android:drawableLeft="@drawable/ic_search_black_24dp"
+                    android:hint="Enter Table Number"
+                    android:textSize="20dp"
+                    android:paddingLeft="5dp" />
+
+                <ImageButton
+                    android:id="@+id/imageButton1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="#D9794b2e"
+                    android:src="@drawable/abc_ic_clear_mtrl_alpha"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            </ListView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <!-- <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical">
+
+     </LinearLayout>
+ -->
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" ©2016 Habitat. All Rights Reserved. Created By SQIndia."
+            android:textSize="12sp"
+            android:layout_marginLeft="30dp"
+            android:gravity="center_horizontal"
+            android:textColor="#FFFF"
+            android:id="@+id/textrights"
+            android:layout_marginTop="38dp"/>
+    </LinearLayout>
+
+</LinearLayout>

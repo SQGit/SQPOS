@@ -7,10 +7,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-/**
- * Created by Admin on 23-02-2016.
- */
-public class SplashActivity extends Activity {
+    public class SplashActivity extends Activity {
     private static String TAG = SplashActivity.class.getName();
     private static long SLEEP_TIME = 5;	// Sleep for some time
 
@@ -18,12 +15,9 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);	// Removes title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);	// Removes notification bar
-
         setContentView(R.layout.splash);
-
         // Start timer and launch main activity
         IntentLauncher launcher = new IntentLauncher();
         launcher.start();
@@ -32,9 +26,6 @@ public class SplashActivity extends Activity {
     private class IntentLauncher extends Thread {
 
         @Override
-        /**
-         * Sleep for some time and than start new activity.
-         */
         public void run() {
             try {
                 // Sleeping
@@ -42,8 +33,6 @@ public class SplashActivity extends Activity {
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
-
-            // Start main activity
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             SplashActivity.this.startActivity(intent);
             SplashActivity.this.finish();
