@@ -8,8 +8,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-      >
+        android:orientation="horizontal">
 
 
         <TextView
@@ -26,7 +25,6 @@
             android:text="DATE" />
 
 
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="110dp"
@@ -39,7 +37,6 @@
             android:gravity="left|center"
             android:layout_marginLeft="15dp"
             android:text="BILL NO" />
-
 
 
         <TextView
@@ -78,7 +75,6 @@
             android:textColor="#FFFF"
             android:singleLine="true"
             android:layout_marginLeft="5dp"
-
             android:textSize="16sp"
             android:layout_gravity="left"
             android:gravity="left|center"
@@ -96,6 +92,7 @@
             android:gravity="left|center"
             android:text=" PRICE" />
 
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="100dp"
@@ -107,7 +104,8 @@
             android:textColor="#FFFF"
             android:textSize="16sp"
             android:singleLine="true"
-            android:text="QTY" />
+            android:text="QTY"/>
+
 
         <TextView
             android:id="@+id/textView6"
@@ -119,8 +117,7 @@
             android:layout_marginTop="0dp"
             android:layout_gravity="left"
             android:gravity="left|center"
-            android:text="TOTAL" />
-
+            android:text="TOTAL"/>
 
     </LinearLayout>
 </LinearLayout>
