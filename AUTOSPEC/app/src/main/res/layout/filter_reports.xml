@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/textView_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="-65dp"
+            android:background="@drawable/all_text_head"
+            android:ems="8"
+            android:gravity="center"
+            android:padding="20dp"
+            android:rotation="-90"
+            android:text="Filter Reports"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+
+                android:id="@+id/spinner_agreementno"
+
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/line_spinner_bg"
+                android:gravity="left|center"
+                android:text="UNIT NO"
+                android:textColor="#2054be"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:ms_arrowColor="#2054be"
+                app:ms_arrowSize="18dp"
+                app:ms_hint="RENTAL AGREEMENT NO"
+                app:ms_hintColor="#2054be"
+                app:ms_multiline="false"
+                app:ms_thickness="0.1dp">
+
+            </fr.ganfra.materialspinner.MaterialSpinner>
+
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_unitno"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/line_spinner_bg"
+                android:gravity="left|center"
+                android:textColor="#2054be"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:ms_arrowColor="#2054be"
+                app:ms_arrowSize="18dp"
+                app:ms_hint="UNIT NO"
+                app:ms_hintColor="#2054be"
+                app:ms_multiline="false"
+                app:ms_thickness="0.1dp">
+
+            </fr.ganfra.materialspinner.MaterialSpinner>
+
+            <Button
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#97c626"
+                android:ems="7"
+                android:text="Filter" />
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-12dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="600dp"
+                        android:layout_gravity="center_horizontal"
+                        android:clipToPadding="false"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="1dp"
+                        android:gravity="center"
+                        android:paddingBottom="36dip"
+                        android:paddingTop="16dip" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
