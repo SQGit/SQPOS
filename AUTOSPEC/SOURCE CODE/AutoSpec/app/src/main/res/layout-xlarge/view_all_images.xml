@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/powered_backgroung">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-150dp"
+            android:background="@drawable/all_text_head"
+            android:paddingBottom="15dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="15dp"
+            android:rotation="-90"
+            android:text="View Reports"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_back2"
+        android:drawableLeft="@drawable/back_icon"
+        android:ems="4"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        android:textSize="35sp" />
+
+
+    <FrameLayout
+        android:layout_width="850dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="270dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+
+
+
+            <TableLayout
+                android:id="@+id/images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TableRow
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start">
+
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/instrument_clusters"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+
+
+                    <Space
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent" />
+
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/driverside_front"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+                    <Space
+                        android:layout_width="75dp"
+                        android:layout_height="match_parent" />
+
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/passenger_side_front"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+                </TableRow>
+
+
+                <TableRow
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/txt_cluster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Instrument Cluster"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#35476B"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <Space
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/txt_driversidefront"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Driver Side Front"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#35476B"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+
+                    <Space
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/txt_passsidefront"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Passenger Side Front"
+                        android:textColor="#35476B"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+
+                <TableRow
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start">
+
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/front_view"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+
+                    <Space
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/driver_side_rear"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+
+                    <Space
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent" />
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/passenger_side_rea"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+                </TableRow>
+
+                <TableRow
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/txt_frontview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FrontView"
+                        android:textColor="#35476B"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <Space
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/txt_driversiderear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Driver Side Rear"
+                        android:textColor="#35476B"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+
+                    <Space
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/txt_passsiderear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Passenger Side Rear"
+                        android:textColor="#35476B"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/rear_views"
+                        android:scaleType="fitCenter"
+                        app:riv_corner_radius="30dip"
+                        app:riv_border_width="2dip"
+                        app:riv_border_color="#97c626"
+                        app:riv_mutate_background="true"
+                        app:riv_tile_mode="repeat"
+                        app:riv_oval="true" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/txt_rearview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RearView"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#35476B"
+                        android:textSize="22sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="400dp">
+
+            <TextView
+                android:id="@+id/inspectiondate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:gravity="left"
+                android:text=""
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/dt_xhdpi"
+                android:drawablePadding="@dimen/txtDrwblPadding"
+                android:textColor="#000000"
+                android:textSize="25dp"/>
+
+
+            <View
+                android:layout_width="270dp"
+                android:layout_height="2dp"
+                android:background="#97c626"
+                android:layout_marginTop="7dp"/>
+
+
+                <TextView
+                    android:id="@+id/unitno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:ems="10"
+                    android:layout_marginTop="15dp"
+                    android:gravity="left"
+                    android:text=""
+                    android:drawableLeft="@drawable/cr_xhdpi"
+                    android:drawablePadding="@dimen/txtDrwblPadding"
+                    android:textColor="#000000"
+                    android:textSize="25dp" />
+
+                <View
+                    android:layout_width="270dp"
+                    android:layout_height="2dp"
+                    android:background="#97c626"
+                    android:layout_marginTop="7dp"/>
+
+
+
+                    <TextView
+                        android:id="@+id/aggno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:ems="10"
+                        android:layout_marginTop="15dp"
+                        android:gravity="left"
+                        android:text=""
+                        android:drawableLeft="@drawable/ct_xxhdpi"
+                        android:drawablePadding="@dimen/txtDrwblPadding"
+                        android:textColor="#000000"
+                        android:textSize="25dp" />
+
+                        <View
+                            android:layout_width="270dp"
+                            android:layout_height="2dp"
+                            android:background="#97c626"
+                            android:layout_marginTop="7dp"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="460dp"
+            android:layout_gravity="right"
+            android:gravity="right">
+
+
+            <TextView
+                android:id="@+id/txt_cussign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer Signature"
+                android:textColor="#35476B"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/sign"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+
+
+    </FrameLayout>
+</RelativeLayout>
+
+
+
+
+
+
+

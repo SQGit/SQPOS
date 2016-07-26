@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'AndroidKey'
+            keyPassword '123456'
+            storeFile file('E:/AUTOSPEC FINAL/PlayStore/AutoSpec/autospec.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+    defaultConfig {
+        applicationId "autospec.sqindia.net.autospec"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        signingConfig signingConfigs.config
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.config
+            zipAlignEnabled true
+        }
+    }
+    productFlavors {
+    }
+}
+
+repositories {
+    maven { url "https://repo.commonsware.com.s3.amazonaws.com" }
+    maven { url "https://jitpack.io" }
+
+}
+
+repositories {
+    // for downloading polypicker dependency cwac-camera
+    maven {
+        url "https://repo.commonsware.com.s3.amazonaws.com"
+    }
+
+    // for downloading poly-picker now we are using jitpack.
+    // Goodbye Maven Central
+    maven {
+        url "https://jitpack.io"
+
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.github.gcacace:signature-pad:1.1.0'
+    compile 'me.biubiubiu.justifytext:library:1.1'
+    compile 'com.github.ganfra:material-spinner:1.1.1'
+    compile 'com.github.ParkSangGwon:TedPicker:v1.0.10'
+    compile 'com.github.GcsSloop:FontsManager:v1.0.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile project(':activation')
+    compile project(':additionnal')
+    compile project(':mail')
+    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    compile 'me.iwf.photopicker:PhotoPicker:0.8.1@aar'
+    compile 'com.github.badoualy:stepper-indicator:1.0.1'
+    compile project(':BadgedView')
+}

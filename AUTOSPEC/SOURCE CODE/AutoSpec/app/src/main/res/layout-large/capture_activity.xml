@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/car_background">
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/textView_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:layout_marginLeft="-140dp"
+            android:text="Capture Image"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:textAllCaps="false"
+            android:textSize="35dp"
+            android:textColor="#FFF"
+            android:background="@drawable/all_text_head"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_back2"
+        android:drawableLeft="@drawable/back_icon"
+        android:paddingLeft="25dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:ems="4"
+        android:text="Back"
+        android:textAllCaps="false"
+        android:textColor="#FFF"
+        android:textSize="30sp"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Front View"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_frontv"
+                android:layout_marginLeft="700dp"
+                android:layout_marginTop="80dp"/>
+
+            <TextView
+                android:id="@+id/camera4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="830dp"
+                android:textSize="27sp"
+                android:text="0"
+                android:visibility="gone"
+                android:textColor="#F44336"
+                android:layout_marginTop="80dp"/>
+
+
+            <ImageButton
+                android:id="@+id/btn_front_view"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_camera_button"
+                android:layout_marginLeft="860dp"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/camera_icon"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Driver Side Rear"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_dsr"
+                android:layout_marginLeft="725dp"
+                android:layout_marginTop="155dp"/>
+
+            <TextView
+                android:id="@+id/camera5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="900dp"
+                android:textSize="24sp"
+                android:text="0"
+                android:visibility="gone"
+                android:textColor="#F44336"
+                android:layout_marginTop="155dp"/>
+
+
+
+
+            <ImageButton
+                android:id="@+id/btn_driver_side_rear"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_camera_button"
+                android:layout_marginLeft="925dp"
+                android:src="@drawable/camera_icon"
+                android:layout_marginTop="145dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Passenger Side Rear"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_psr"
+                android:layout_marginLeft="690dp"
+                android:layout_marginTop="240dp"/>
+
+
+            <TextView
+                android:id="@+id/camera6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="920dp"
+                android:textSize="24sp"
+                android:text="0"
+                android:visibility="gone"
+                android:textColor="#F44336"
+                android:layout_marginTop="240dp"/>
+
+
+
+
+            <ImageButton
+                android:id="@+id/btn_passenger_side_rear"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_camera_button"
+                android:layout_marginLeft="920dp"
+                android:src="@drawable/camera_icon"
+                android:layout_marginTop="270dp"/>
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rear View"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_rv"
+                android:layout_marginLeft="645dp"
+                android:layout_marginTop="345dp"/>
+
+
+            <TextView
+                android:id="@+id/camera7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="800dp"
+                android:textSize="24sp"
+                android:text="0"
+                android:visibility="gone"
+                android:textColor="#F44336"
+                android:layout_marginTop="345dp"/>
+
+
+            <ImageButton
+                android:id="@+id/btn_rear_view"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_camera_button"
+                android:layout_marginLeft="825dp"
+                android:src="@drawable/camera_icon"
+                android:layout_marginTop="335dp"/>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instrument Cluster"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_ic"
+                android:layout_marginLeft="340dp"
+                android:layout_marginTop="50dp"/>
+
+
+        <TextView
+                android:id="@+id/camera1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:visibility="gone"
+                android:text="0"
+                android:textColor="#F44336"
+                android:layout_marginTop="50dp"/>
+
+
+
+            <ImageButton
+                android:id="@+id/btn_instrument_cluster"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/camera_icon"
+                android:background="@drawable/round_camera_button"
+                android:layout_marginLeft="260dp"
+                android:layout_marginTop="40dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Driver Side Front"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_dsf"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="120dp"/>
+
+
+            <TextView
+                android:id="@+id/camera2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="440dp"
+                android:textSize="24sp"
+                android:visibility="gone"
+                android:text="0"
+                android:textColor="#F44336"
+                android:layout_marginTop="120dp"/>
+
+
+            <ImageButton
+                android:id="@+id/btn_driver_side_front"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_camera_button"
+                android:src="@drawable/camera_icon"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="110dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Passenger Side front"
+                android:textSize="21sp"
+                android:textStyle="bold"
+                android:textColor="#35476B"
+                android:id="@+id/textView_psf"
+                android:layout_marginLeft="160dp"
+                android:layout_marginTop="215dp"/>
+
+
+            <TextView
+                android:id="@+id/camera3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="390dp"
+                android:textSize="27sp"
+                android:text="0"
+                android:visibility="gone"
+                android:textColor="#F44336"
+                android:layout_marginTop="215dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_passenger_side_front"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/round_camera_button"
+                android:src="@drawable/camera_icon"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="260dp" />
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageviewTest"
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/btn_instrument_cluster"
+                android:layout_alignEnd="@+id/btn_instrument_cluster" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

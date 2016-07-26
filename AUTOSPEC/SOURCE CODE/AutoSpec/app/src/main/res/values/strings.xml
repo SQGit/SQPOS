@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AutoSpec</string>
+    <string name="openDrawer">asdf </string>
+    <string name="closeDrawer">asdf </string>
+    <string name="custom_title">AUTO SPEC</string>
+    <string name="lab_num">1</string>
+</resources>

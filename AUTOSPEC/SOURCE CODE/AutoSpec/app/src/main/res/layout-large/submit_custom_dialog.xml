@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BF000000">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You have Submitted the Details \nSuccessfully "
+        android:textSize="30dp"
+        android:textColor="#FFF"
+      android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:id="@+id/textView" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#97c626"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Rental Agreement No is"
+        android:textSize="28dp"
+        android:textColor="#FFF"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:id="@+id/textView1" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AS25897"
+        android:textSize="35dp"
+        android:textColor="#97c626"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:id="@+id/txt_agrreement" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tick_icon"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>
