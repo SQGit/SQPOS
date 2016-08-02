@@ -465,9 +465,6 @@ public class ViewImage extends Activity {
         window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
-        // PhotoView iv_photo;
-        //  iv_photo = (PhotoView) promptView.findViewById(R.id.iv_photo);
-
         ViewPager mViewPager;
 
         CustomPagerAdapter mCustomPagerAdapter = new CustomPagerAdapter(this,bbbb);

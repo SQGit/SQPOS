@@ -4,15 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--   <uk.co.senab.photoview.PhotoView
-           xmlns:android="http://schemas.android.com/apk/res/android"
-           android:id="@+id/iv_photo"
-           android:layout_width="500dp"
-           android:layout_height="500dp"
-           android:layout_gravity="center"/>-->
-
-    <ImageView
-        android:id="@+id/asdf"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <uk.co.senab.photoview.PhotoView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/iv_pho"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:layout_gravity="center"/>
 </LinearLayout>

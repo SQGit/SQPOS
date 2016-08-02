@@ -47,22 +47,25 @@ class CustomPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
-      /*  PhotoView imageView;
-        imageView = (PhotoView) itemView.findViewById(R.id.iv_photo);*/
-        ImageView imageView = (ImageView) itemView.findViewById(R.id.asdf);
-        //imageView.setImageResource(image_data.get(position));
+        //ImageView imageView = (ImageView) itemView.findViewById(R.id.asdf);
 
-
-        Log.e("tag","data"+image_data.get(position));
-
+       /* Log.e("tag","data"+image_data.get(position));
         Picasso.with(mContext)
                 .load(new File(image_data.get(position)))
                 .fit()
                 .into(imageView);
-
         container.addView(itemView);
+        return itemView;*/
 
+        PhotoView iv_pho;
+        iv_pho = (PhotoView) itemView.findViewById(R.id.iv_pho);
+        Picasso.with(mContext)
+                .load(new File(image_data.get(position)))
+                .fit()
+                .into(iv_pho);
+        container.addView(itemView);
         return itemView;
+
     }
 
     @Override
